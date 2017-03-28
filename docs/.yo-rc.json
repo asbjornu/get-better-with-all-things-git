@@ -1,0 +1,10 @@
+{
+  "generator-reveal": {
+    "presentationTitle": "Get Better With All Things Git",
+    "packageVersion": "0.0.1",
+    "useSass": true,
+    "deployToGithubPages": true,
+    "githubUsername": "asbjornu",
+    "githubRepository": "get-better-with-all-things-git"
+  }
+}
