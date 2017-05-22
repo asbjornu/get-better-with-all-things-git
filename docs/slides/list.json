@@ -1,9 +1,9 @@
 [
     [
-        "index.md",
-        "endofunctors-of-hilbert-space.md",
+        "1.index.md",
+        "2.endofunctors-of-hilbert-space.md",
         {
-            "filename": "wat.md",
+            "filename": "3.wat.md",
             "attr": {
                 "data-background": "./images/wat.png"
             }
