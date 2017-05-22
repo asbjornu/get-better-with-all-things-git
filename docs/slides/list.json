@@ -1,12 +1,12 @@
 [
-    [
-        "1.index.md",
-        "2.endofunctors-of-hilbert-space.md",
-        {
-            "filename": "3.wat.md",
-            "attr": {
-                "data-background": "./images/wat.png"
-            }
+    "1.index.md",
+    "2.endofunctors-of-hilbert-space.md",
+    {
+        "filename": "3.wat.md",
+        "attr": {
+            "data-background": "./images/wat.png"
         }
-    ]
+    },
+    "4.dag.md",
+    "5.dag.md"
 ]
