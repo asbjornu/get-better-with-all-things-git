@@ -5,7 +5,7 @@
         {
             "filename": "wat.md",
             "attr": {
-                "data-background": "/images/wat.png"
+                "data-background": "./images/wat.png"
             }
         }
     ]
