@@ -8,5 +8,11 @@
         }
     },
     "4.dag.md",
-    "5.dag.md"
+    "5.dag.md",
+    {
+        "filename": "6.what.md",
+        "attr": {
+            "data-background": "./images/monkey.jpg"
+        }
+    }
 ]
