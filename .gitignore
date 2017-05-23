@@ -3,3 +3,4 @@ dist
 *.log
 .sass-cache
 _site
+docs/index.html
