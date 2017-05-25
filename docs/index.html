@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Get Better With All Things Git</title>
+    <link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
+    <link rel="stylesheet" href="css/theme.css" id="theme">
+    <style>
+        .chart rect {
+            fill: #63b6db;
+        }
+
+        .chart text {
+            fill: white;
+            font: 10px sans-serif;
+            text-anchor: end;
+        }
+
+        text {
+            font: 10px sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h2>Barebones Presentation</h2>
+                <p>This example contains the bare minimum includes and markup required to run a reveal.js presentation.</p>
+                <div class="graph"></div>
+            </section>
+
+            <section id="sect2">
+                <h2>No Theme</h2>
+                <p>There's no theme included, so it will fall back on browser defaults.</p>
+                <div class="graph"></div>
+            </section>
+        </div>
+    </div>
+
+    <script src="bower_components/reveal.js/lib/js/head.min.js"></script>
+    <script src="bower_components/reveal.js/js/reveal.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script>
+        Reveal.initialize();
+        Reveal.addEventListener('#sect2', function() {
+            console.log('sect2');
+
+            var vis = d3.select(".graph")
+                .append("svg")
+                .attr("width", 200)
+                .attr("height", 200);
+
+            var nodes = [
+                {
+                    x: 10,
+                    y: 50
+                },
+                {
+                    x: 70,
+                    y: 10
+                },
+                {
+                    x: 140,
+                    y: 50
+                }
+            ]
+
+            vis.selectAll("circle.nodes")
+                .data(nodes)
+                .enter()
+                .append("svg:circle")
+                .attr("cx", function(d) {
+                    return d.x;
+                })
+                .attr("cy", function(d) {
+                    return d.y;
+                })
+                .attr("r", "10px")
+                .attr("fill", "white")
+        });
+    </script>
+</body>
+</html>
