@@ -33,14 +33,14 @@
             <section id="dag1">
                 <h2>No Theme</h2>
                 <p>There's no theme included, so it will fall back on browser defaults.</p>
-                <span class="fragment"></span>
-                <span class="fragment"></span>
-                <span class="fragment"></span>
-                <span class="fragment"></span>
-                <span class="fragment"></span>
-                <span class="fragment"></span>
-                <span class="fragment"></span>
-                <span class="fragment"></span>
+                <p class="fragment"></p>
+                <p class="fragment"></p>
+                <p class="fragment"></p>
+                <p class="fragment"></p>
+                <p class="fragment"></p>
+                <p class="fragment"></p>
+                <p class="fragment"></p>
+                <p class="fragment"></p>
                 <div class="graph"></div>
             </section>
         </div>
@@ -49,70 +49,6 @@
     <script src="bower_components/reveal.js/lib/js/head.min.js"></script>
     <script src="bower_components/reveal.js/js/reveal.js"></script>
     <script src="bower_components/d3/d3.min.js"></script>
-    <script>
-        Reveal.initialize();
-        Reveal.addEventListener('slidechanged', drawGraph);
-        Reveal.addEventListener('fragmentshown', drawGraph);
-        Reveal.addEventListener('fragmenthidden', drawGraph);
-
-        function drawGraph(event) {
-            var id = Reveal.getCurrentSlide().id;
-            var step = Reveal.getIndices().f;
-
-            console.log(id, step);
-
-            if (id != 'dag1') {
-                return;
-            }
-
-
-            var graph = d3.select(".graph");
-
-            switch (step) {
-                case 0:
-                    graph = graph
-                        .append("svg")
-                        .attr("width", 200)
-                        .attr("height", 200);
-
-                    var nodes = [
-                        {
-                            x: 10,
-                            y: 50
-                        },
-                        {
-                            x: 70,
-                            y: 10
-                        },
-                        {
-                            x: 140,
-                            y: 50
-                        }
-                    ]
-
-                    graph.selectAll("circle.nodes")
-                        .data(nodes)
-                        .enter()
-                        .append("svg:circle")
-                        .attr("cx", function(d) {
-                            return d.x;
-                        })
-                        .attr("cy", function(d) {
-                            return d.y;
-                        })
-                        .attr("r", "10px")
-                        .attr("fill", "white");
-                    break;
-
-                case 1:
-                    // move to vis state 1
-                    break;
-
-                case 2:
-                    // move to vis state 2
-                    break;
-            }
-        }
-    </script>
+    <script src="js/graph.js"></script>
 </body>
 </html>

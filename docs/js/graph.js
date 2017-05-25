@@ -1,48 +1,60 @@
-document.addEventListener('DOMContentLoaded', function(event) {
+var graph = d3.select(".graph")
+              .append("svg")
+              .attr("width", 200)
+              .attr("height", 200);
 
+Reveal.initialize();
+Reveal.addEventListener('slidechanged', drawGraph);
+Reveal.addEventListener('fragmentshown', drawGraph);
+Reveal.addEventListener('fragmenthidden', drawGraph);
 
+function drawGraph(event) {
+    var id = Reveal.getCurrentSlide().id;
+    var step = Reveal.getIndices().f;
 
-var vis = d3.select("#graph")
-            .append("svg")
-.attr("width", 200).attr("height", 200);
+    console.log(id, step);
 
-var nodes = [
-    {x: 10, y: 50},
-    {x: 70, y: 10},
-    {x: 140, y: 50}
-  ]
+    if (id != 'dag1') {
+        return;
+    }
 
-vis.selectAll("circle.nodes")
-   .data(nodes)
-   .enter()
-   .append("svg:circle")
-   .attr("cx", function(d) { return d.x; })
-   .attr("cy", function(d) { return d.y; })
-   .attr("r", "10px")
-   .attr("fill", "white")
+    switch (step) {
+        case 0:
+            var nodes = [
+                {
+                    x: 10,
+                    y: 50
+                },
+                {
+                    x: 70,
+                    y: 10
+                },
+                {
+                    x: 140,
+                    y: 50
+                }
+            ]
 
+            graph.selectAll("circle.nodes")
+                .data(nodes)
+                .enter()
+                .append("svg:circle")
+                .attr("cx", function(d) {
+                    return d.x;
+                })
+                .attr("cy", function(d) {
+                    return d.y;
+                })
+                .attr("r", "10px")
+                .attr("fill", "white");
+            break;
 
-    /*var graph = d3.select("#graph");
+        case 1:
+            // move to vis state 1
+            break;
 
-    if (graph) {
-        var nodes = [
-            { x: 30, y: 50 },
-            { x: 50, y: 80 },
-            { x: 90, y: 120 }
-        ]
-
-        graph.append("svg")
-             .attr("width", 800)
-             .attr("height", 800);
-
-        graph.selectAll("circle .nodes")
-             .data(nodes)
-             .enter()
-             .append("svg:circle")
-             .attr("class", "nodes")
-             .attr("cx", function(d) { return d.x; })
-             .attr("cy", function(d) { return d.y; })
-             .attr("r", "10px")
-             .attr("fill", "white");
-    }*/
-});
+        case 2:
+            // move to vis state 2
+            break;
+    }
+}
