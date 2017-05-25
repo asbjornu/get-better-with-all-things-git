@@ -28,10 +28,9 @@
             <section>
                 <h2>Barebones Presentation</h2>
                 <p>This example contains the bare minimum includes and markup required to run a reveal.js presentation.</p>
-                <div class="graph"></div>
             </section>
 
-            <section id="sect2">
+            <section id="dag1">
                 <h2>No Theme</h2>
                 <p>There's no theme included, so it will fall back on browser defaults.</p>
                 <div class="graph"></div>
@@ -44,41 +43,43 @@
     <script src="bower_components/d3/d3.min.js"></script>
     <script>
         Reveal.initialize();
-        Reveal.addEventListener('#sect2', function() {
-            console.log('sect2');
+        Reveal.addEventListener('slidechanged', function(event) {
+            if (event.currentSlide.id == 'dag1') {
+                console.log('sect2');
 
-            var vis = d3.select(".graph")
-                .append("svg")
-                .attr("width", 200)
-                .attr("height", 200);
+                var vis = d3.select(".graph")
+                    .append("svg")
+                    .attr("width", 200)
+                    .attr("height", 200);
 
-            var nodes = [
-                {
-                    x: 10,
-                    y: 50
-                },
-                {
-                    x: 70,
-                    y: 10
-                },
-                {
-                    x: 140,
-                    y: 50
-                }
-            ]
+                var nodes = [
+                    {
+                        x: 10,
+                        y: 50
+                    },
+                    {
+                        x: 70,
+                        y: 10
+                    },
+                    {
+                        x: 140,
+                        y: 50
+                    }
+                ]
 
-            vis.selectAll("circle.nodes")
-                .data(nodes)
-                .enter()
-                .append("svg:circle")
-                .attr("cx", function(d) {
-                    return d.x;
-                })
-                .attr("cy", function(d) {
-                    return d.y;
-                })
-                .attr("r", "10px")
-                .attr("fill", "white")
+                vis.selectAll("circle.nodes")
+                    .data(nodes)
+                    .enter()
+                    .append("svg:circle")
+                    .attr("cx", function(d) {
+                        return d.x;
+                    })
+                    .attr("cy", function(d) {
+                        return d.y;
+                    })
+                    .attr("r", "10px")
+                    .attr("fill", "white")
+            }
         });
     </script>
 </body>
