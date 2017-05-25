@@ -33,6 +33,14 @@
             <section id="dag1">
                 <h2>No Theme</h2>
                 <p>There's no theme included, so it will fall back on browser defaults.</p>
+                <span class="fragment"></span>
+                <span class="fragment"></span>
+                <span class="fragment"></span>
+                <span class="fragment"></span>
+                <span class="fragment"></span>
+                <span class="fragment"></span>
+                <span class="fragment"></span>
+                <span class="fragment"></span>
                 <div class="graph"></div>
             </section>
         </div>
@@ -43,44 +51,68 @@
     <script src="bower_components/d3/d3.min.js"></script>
     <script>
         Reveal.initialize();
-        Reveal.addEventListener('slidechanged', function(event) {
-            if (event.currentSlide.id == 'dag1') {
-                console.log('sect2');
+        Reveal.addEventListener('slidechanged', drawGraph);
+        Reveal.addEventListener('fragmentshown', drawGraph);
+        Reveal.addEventListener('fragmenthidden', drawGraph);
 
-                var vis = d3.select(".graph")
-                    .append("svg")
-                    .attr("width", 200)
-                    .attr("height", 200);
+        function drawGraph(event) {
+            var id = Reveal.getCurrentSlide().id;
+            var step = Reveal.getIndices().f;
 
-                var nodes = [
-                    {
-                        x: 10,
-                        y: 50
-                    },
-                    {
-                        x: 70,
-                        y: 10
-                    },
-                    {
-                        x: 140,
-                        y: 50
-                    }
-                ]
+            console.log(id, step);
 
-                vis.selectAll("circle.nodes")
-                    .data(nodes)
-                    .enter()
-                    .append("svg:circle")
-                    .attr("cx", function(d) {
-                        return d.x;
-                    })
-                    .attr("cy", function(d) {
-                        return d.y;
-                    })
-                    .attr("r", "10px")
-                    .attr("fill", "white")
+            if (id != 'dag1') {
+                return;
             }
-        });
+
+
+            var graph = d3.select(".graph");
+
+            switch (step) {
+                case 0:
+                    graph = graph
+                        .append("svg")
+                        .attr("width", 200)
+                        .attr("height", 200);
+
+                    var nodes = [
+                        {
+                            x: 10,
+                            y: 50
+                        },
+                        {
+                            x: 70,
+                            y: 10
+                        },
+                        {
+                            x: 140,
+                            y: 50
+                        }
+                    ]
+
+                    graph.selectAll("circle.nodes")
+                        .data(nodes)
+                        .enter()
+                        .append("svg:circle")
+                        .attr("cx", function(d) {
+                            return d.x;
+                        })
+                        .attr("cy", function(d) {
+                            return d.y;
+                        })
+                        .attr("r", "10px")
+                        .attr("fill", "white");
+                    break;
+
+                case 1:
+                    // move to vis state 1
+                    break;
+
+                case 2:
+                    // move to vis state 2
+                    break;
+            }
+        }
     </script>
 </body>
 </html>
