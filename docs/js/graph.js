@@ -119,7 +119,7 @@ function drawGraph(event) {
                 var currentNode = nodes[i];
                 var nextNode = i < nodes.length - 1
                              ? nodes[i + 1]
-                             : currentNode;
+                             : nodes[0];
 
                 currentNode = {
                     x : currentNode.x,
@@ -151,14 +151,19 @@ function drawGraph(event) {
                 } else if (xDiff < 0 && yDiff < 0) {
                     currentNode.x -= 15;
                     currentNode.y -= 20;
-                    nextNode.x += 25;
-                    nextNode.y += 40;
+                    nextNode.x += 22;
+                    nextNode.y += 37;
+                } else if (xDiff > 0 && yDiff < 0) {
+                    currentNode.x += 15;
+                    currentNode.y -= 20;
+                    nextNode.x -= 22;
+                    nextNode.y += 37;
                 } else if (xDiff > 0 && yDiff == 0) {
                     currentNode.x += 25;
-                    nextNode.x -= 45;
+                    nextNode.x -= 42;
                 } else if (xDiff < 0 && yDiff == 0) {
                     currentNode.x -= 25;
-                    nextNode.x += 45;
+                    nextNode.x += 42;
                 }
 
                 graph.append('path')
