@@ -3,14 +3,15 @@ var graph = d3.select('.graph')
               .attr('width', window.innerWidth)
               .attr('height', window.innerHeight);
 
-var blueGradient = graph.append('svg:defs')
-                        .append('svg:linearGradient')
-                        .attr('id', 'b')
-                        .attr('x1', 0)
-                        .attr('y1', 0)
-                        .attr('x2', 0)
-                        .attr('y2', 1)
-                        .attr('spreadMethod', 'pad');
+var defs = graph.append('svg:defs');
+
+var blueGradient = defs.append('svg:linearGradient')
+                       .attr('id', 'b')
+                       .attr('x1', 0)
+                       .attr('y1', 0)
+                       .attr('x2', 0)
+                       .attr('y2', 1)
+                       .attr('spreadMethod', 'pad');
 
 blueGradient.append('svg:stop')
             .attr('offset', '0%')
@@ -22,14 +23,13 @@ blueGradient.append('svg:stop')
             .attr('stop-color', '#2ab0ed')
             .attr('stop-opacity', 1);
 
-var orangeGradient = graph.append('svg:defs')
-                          .append('svg:linearGradient')
-                          .attr('id', 'o')
-                          .attr('x1', 0)
-                          .attr('y1', 0)
-                          .attr('x2', 0)
-                          .attr('y2', 1)
-                          .attr('spreadMethod', 'pad');
+var orangeGradient = defs.append('svg:linearGradient')
+                         .attr('id', 'o')
+                         .attr('x1', 0)
+                         .attr('y1', 0)
+                         .attr('x2', 0)
+                         .attr('y2', 1)
+                         .attr('spreadMethod', 'pad');
 
 orangeGradient.append('svg:stop')
               .attr('offset', '0%')
@@ -40,6 +40,18 @@ orangeGradient.append('svg:stop')
               .attr('offset', '100%')
               .attr('stop-color', '#ed9017')
               .attr('stop-opacity', 1);
+
+var head = defs.append('svg:marker')
+               .attr('id', 'head')
+               .attr('orient', 'auto')
+               .attr('markerWidth', 2)
+               .attr('markerHeight', 4)
+               .attr('refX', 0.1)
+               .attr('refY', 2);
+
+head.append('path')
+    .attr('d', 'M0,0 V4 L2,2 Z')
+    .attr('fill', '#aaa');
 
 Reveal.initialize();
 Reveal.addEventListener('slidechanged', drawGraph);
@@ -59,17 +71,17 @@ function drawGraph(event) {
             var nodes = [
                 {
                     x: 100,
-                    y: 20,
+                    y: 50,
                     c: 'b',
                 },
                 {
                     x: 300,
-                    y: 20,
+                    y: 50,
                     c: 'b'
                 },
                 {
                     x: 500,
-                    y: 20,
+                    y: 50,
                     c: 'b'
                 },
                 {
@@ -99,15 +111,63 @@ function drawGraph(event) {
                 }
             ];
 
-            var lineFunction = d3.line()
-                                 .x(function(d) { return d.x; })
-                                 .y(function(d) { return d.y; });
+            var lineData = d3.line()
+                             .x(function(d) { return d.x; })
+                             .y(function(d) { return d.y; });
 
-            var lineGraph = graph.append('path')
-                                 .attr('d', lineFunction(nodes))
-                                 .attr('stroke', '#888')
-                                 .attr('stroke-width', 20)
-                                 .attr('fill', 'none');
+            for (var i = 0; i < nodes.length; i++) {
+                var currentNode = nodes[i];
+                var nextNode = i < nodes.length - 1
+                             ? nodes[i + 1]
+                             : currentNode;
+
+                currentNode = {
+                    x : currentNode.x,
+                    y : currentNode.y,
+                    c : currentNode.c
+                };
+
+                nextNode = {
+                    x : nextNode.x,
+                    y : nextNode.y,
+                    c : nextNode.c
+                };
+
+                var xDiff = nextNode.x - currentNode.x;
+                var yDiff = nextNode.y - currentNode.y;
+
+                console.log(currentNode, {x: xDiff, y: yDiff});
+
+                if (xDiff > 0 && yDiff > 0) {
+                    currentNode.x += 20;
+                    currentNode.y += 20;
+                    nextNode.x -= 32;
+                    nextNode.y -= 32;
+                } else if (xDiff < 0 && yDiff > 0) {
+                    currentNode.x -= 20;
+                    currentNode.y += 20;
+                    nextNode.x += 32;
+                    nextNode.y -= 32;
+                } else if (xDiff < 0 && yDiff < 0) {
+                    currentNode.x -= 15;
+                    currentNode.y -= 20;
+                    nextNode.x += 25;
+                    nextNode.y += 40;
+                } else if (xDiff > 0 && yDiff == 0) {
+                    currentNode.x += 25;
+                    nextNode.x -= 45;
+                } else if (xDiff < 0 && yDiff == 0) {
+                    currentNode.x -= 25;
+                    nextNode.x += 45;
+                }
+
+                graph.append('path')
+                     .attr('d', lineData([currentNode, nextNode]))
+                     .attr('stroke', '#aaa')
+                     .attr('stroke-width', 10)
+                     .attr('fill', 'none')
+                     .attr('marker-end', 'url(#head)');
+            }
 
             graph.selectAll('circle.nodes')
                  .data(nodes)
@@ -115,7 +175,7 @@ function drawGraph(event) {
                  .append('svg:circle')
                  .attr('cx', function(d) { return d.x; })
                  .attr('cy', function(d) { return d.y; })
-                 .attr('r', '19px')
+                 .attr('r', 19)
                  .attr('fill', function(d) { return 'url(#' + d.c + ')'; })
                  .attr('stroke', function(d) {
                      switch (d.c) {
