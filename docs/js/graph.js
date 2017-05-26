@@ -133,38 +133,56 @@ function drawGraph(event) {
                     c : nextNode.c
                 };
 
-                var xDiff = nextNode.x - currentNode.x;
-                var yDiff = nextNode.y - currentNode.y;
+                var diff = {
+                    x: nextNode.x - currentNode.x,
+                    y: nextNode.y - currentNode.y
+                };
 
-                console.log(currentNode, {x: xDiff, y: yDiff});
+                var add = {
+                    current: {
+                        x: 0,
+                        y: 0
+                    },
+                    next: {
+                        x: 0,
+                        y: 0
+                    }
+                };
 
-                if (xDiff > 0 && yDiff > 0) {
-                    currentNode.x += 20;
-                    currentNode.y += 20;
-                    nextNode.x -= 32;
-                    nextNode.y -= 32;
-                } else if (xDiff < 0 && yDiff > 0) {
-                    currentNode.x -= 20;
-                    currentNode.y += 20;
-                    nextNode.x += 32;
-                    nextNode.y -= 32;
-                } else if (xDiff < 0 && yDiff < 0) {
-                    currentNode.x -= 15;
-                    currentNode.y -= 20;
-                    nextNode.x += 22;
-                    nextNode.y += 37;
-                } else if (xDiff > 0 && yDiff < 0) {
-                    currentNode.x += 15;
-                    currentNode.y -= 20;
-                    nextNode.x -= 22;
-                    nextNode.y += 37;
-                } else if (xDiff > 0 && yDiff == 0) {
-                    currentNode.x += 25;
-                    nextNode.x -= 42;
-                } else if (xDiff < 0 && yDiff == 0) {
-                    currentNode.x -= 25;
-                    nextNode.x += 42;
+                if (diff.x > 0 && diff.y > 0) {
+                    add.current.x = 20;
+                    add.current.y = 20;
+                    add.next.x = -32;
+                    add.next.y = -32;
+                } else if (diff.x < 0 && diff.y > 0) {
+                    add.current.x = -20;
+                    add.current.y = 20;
+                    add.next.x = 32;
+                    add.next.y = -32;
+                } else if (diff.x < 0 && diff.y < 0) {
+                    add.current.x = -15;
+                    add.current.y = -20;
+                    add.next.x = 22;
+                    add.next.y = 37;
+                } else if (diff.x > 0 && diff.y < 0) {
+                    add.current.x = 15;
+                    add.current.y = -20;
+                    add.next.x = -22;
+                    add.next.y = 37;
+                } else if (diff.x > 0 && diff.y == 0) {
+                    add.current.x = 25;
+                    add.next.x = -42;
+                } else if (diff.x < 0 && diff.y == 0) {
+                    add.current.x = -25;
+                    add.next.x = 42;
                 }
+
+                currentNode.x += add.current.x;
+                currentNode.y += add.current.y;
+                nextNode.x += add.next.x;
+                nextNode.y += add.next.y;
+
+                console.log({ x: diff.x, y: diff.y }, add);
 
                 graph.append('path')
                      .attr('d', lineData([currentNode, nextNode]))
