@@ -152,29 +152,31 @@ function drawGraph(event) {
                 if (diff.x > 0 && diff.y > 0) {
                     add.current.x = 20;
                     add.current.y = 20;
-                    add.next.x = -32;
-                    add.next.y = -32;
                 } else if (diff.x < 0 && diff.y > 0) {
                     add.current.x = -20;
                     add.current.y = 20;
-                    add.next.x = 32;
-                    add.next.y = -32;
                 } else if (diff.x < 0 && diff.y < 0) {
                     add.current.x = -15;
                     add.current.y = -20;
-                    add.next.x = 22;
-                    add.next.y = 37;
                 } else if (diff.x > 0 && diff.y < 0) {
                     add.current.x = 15;
                     add.current.y = -20;
-                    add.next.x = -22;
-                    add.next.y = 37;
                 } else if (diff.x > 0 && diff.y == 0) {
                     add.current.x = 25;
-                    add.next.x = -42;
                 } else if (diff.x < 0 && diff.y == 0) {
                     add.current.x = -25;
-                    add.next.x = 42;
+                }
+
+                if (add.current.x != 0) {
+                    add.next.x = add.current.x < 0
+                               ? Math.abs(add.current.x * 1.6)
+                               : add.current.x * -1.6;
+                }
+
+                if (add.current.y != 0) {
+                    add.next.y = add.current.y < 0
+                               ? Math.abs(add.current.y * 1.7)
+                               : add.current.y * -1.7;
                 }
 
                 currentNode.x += add.current.x;
