@@ -60,7 +60,7 @@ function drawGraph(event) {
                 {
                     x: 100,
                     y: 20,
-                    c: 'b'
+                    c: 'b',
                 },
                 {
                     x: 300,
@@ -115,8 +115,16 @@ function drawGraph(event) {
                  .append('svg:circle')
                  .attr('cx', function(d) { return d.x; })
                  .attr('cy', function(d) { return d.y; })
-                 .attr('r', '20px')
-                 .attr('fill', function(d) { return 'url(#' + d.c + ')'; });
+                 .attr('r', '19px')
+                 .attr('fill', function(d) { return 'url(#' + d.c + ')'; })
+                 .attr('stroke', function(d) {
+                     switch (d.c) {
+                         case 'b':
+                            return '#2E75B6';
+                         case 'o':
+                            return '#BF9000';
+                     }
+                 });
 
             break;
 
