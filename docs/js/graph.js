@@ -115,84 +115,78 @@ function drawGraph(event) {
                              .x(function(d) { return d.x; })
                              .y(function(d) { return d.y; });
 
-            for (var i = 0; i < nodes.length; i++) {
-                var currentNode = nodes[i];
-                var nextNode = i < nodes.length - 1
-                             ? nodes[i + 1]
-                             : nodes[0];
+            graph.selectAll('path.nodes')
+                 .data(nodes)
+                 .enter()
+                 .append('path')
+                 .attr('d', function(currentNode, i) {
+                     var nextNode = i < nodes.length - 1
+                                  ? nodes[i + 1]
+                                  : nodes[0];
 
-                currentNode = {
-                    x : currentNode.x,
-                    y : currentNode.y,
-                    c : currentNode.c
-                };
+                     startPath = {
+                         x : currentNode.x,
+                         y : currentNode.y,
+                         c : currentNode.c
+                     };
 
-                nextNode = {
-                    x : nextNode.x,
-                    y : nextNode.y,
-                    c : nextNode.c
-                };
+                     endPath = {
+                         x : nextNode.x,
+                         y : nextNode.y,
+                         c : nextNode.c
+                     };
 
-                var diff = {
-                    x: nextNode.x - currentNode.x,
-                    y: nextNode.y - currentNode.y
-                };
+                     var diff = {
+                         x: nextNode.x - currentNode.x,
+                         y: nextNode.y - currentNode.y
+                     };
 
-                var add = {
-                    current: {
-                        x: 0,
-                        y: 0
-                    },
-                    next: {
-                        x: 0,
-                        y: 0
-                    }
-                };
+                     var margins = {
+                         current: {
+                             x: 0,
+                             y: 0
+                         },
+                         next: {
+                             x: 0,
+                             y: 0
+                         }
+                     };
 
-                if (diff.x > 0 && diff.y > 0) {
-                    add.current.x = 20;
-                    add.current.y = 20;
-                } else if (diff.x < 0 && diff.y > 0) {
-                    add.current.x = -20;
-                    add.current.y = 20;
-                } else if (diff.x < 0 && diff.y < 0) {
-                    add.current.x = -15;
-                    add.current.y = -20;
-                } else if (diff.x > 0 && diff.y < 0) {
-                    add.current.x = 15;
-                    add.current.y = -20;
-                } else if (diff.x > 0 && diff.y == 0) {
-                    add.current.x = 25;
-                } else if (diff.x < 0 && diff.y == 0) {
-                    add.current.x = -25;
-                }
+                     if (diff.x > 0) {
+                         margins.current.x = 20;
+                     } else if (diff.x < 0) {
+                         margins.current.x = -20;
+                     }
 
-                if (add.current.x != 0) {
-                    add.next.x = add.current.x < 0
-                               ? Math.abs(add.current.x * 1.6)
-                               : add.current.x * -1.6;
-                }
+                     if (diff.y > 0) {
+                         margins.current.y = 20;
+                     } else if (diff.y < 0) {
+                         margins.current.y = -20;
+                     }
 
-                if (add.current.y != 0) {
-                    add.next.y = add.current.y < 0
-                               ? Math.abs(add.current.y * 1.7)
-                               : add.current.y * -1.7;
-                }
+                     if (margins.current.x != 0) {
+                         margins.next.x = margins.current.x < 0
+                                    ? Math.abs(margins.current.x * 1.5)
+                                    : margins.current.x * -1.5;
+                     }
 
-                currentNode.x += add.current.x;
-                currentNode.y += add.current.y;
-                nextNode.x += add.next.x;
-                nextNode.y += add.next.y;
+                     if (margins.current.y != 0) {
+                         margins.next.y = margins.current.y < 0
+                                    ? Math.abs(margins.current.y * 1.5)
+                                    : margins.current.y * -1.5;
+                     }
 
-                console.log({ x: diff.x, y: diff.y }, add);
+                     startPath.x += margins.current.x;
+                     startPath.y += margins.current.y;
+                     endPath.x += margins.next.x;
+                     endPath.y += margins.next.y;
 
-                graph.append('path')
-                     .attr('d', lineData([currentNode, nextNode]))
-                     .attr('stroke', '#aaa')
-                     .attr('stroke-width', 10)
-                     .attr('fill', 'none')
-                     .attr('marker-end', 'url(#head)');
-            }
+                     return lineData([startPath, endPath]);
+                  })
+                 .attr('stroke', '#aaa')
+                 .attr('stroke-width', 10)
+                 .attr('fill', 'none')
+                 .attr('marker-end', 'url(#head)');
 
             graph.selectAll('circle.nodes')
                  .data(nodes)
