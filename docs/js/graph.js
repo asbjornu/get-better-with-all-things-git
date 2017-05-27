@@ -152,13 +152,21 @@ function drawGraph(event) {
                          }
                      };
 
-                     if (diff.x > 0) {
+                     if (diff.x > 0 && diff.y === 0) {
+                         margins.current.x = 30;
+                     } else if (diff.x < 0 && diff.y === 0) {
+                         margins.current.x = -30;
+                     } else if (diff.x > 0) {
                          margins.current.x = 20;
                      } else if (diff.x < 0) {
                          margins.current.x = -20;
                      }
 
-                     if (diff.y > 0) {
+                     if (diff.y > 0 && diff.x === 0) {
+                         margins.current.y = 30;
+                     } else if (diff.y < 0 && diff.x === 0) {
+                         margins.current.y = -30;
+                     } else if (diff.y > 0) {
                          margins.current.y = 20;
                      } else if (diff.y < 0) {
                          margins.current.y = -20;
