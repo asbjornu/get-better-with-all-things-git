@@ -32,7 +32,7 @@ var orangeGradient = defs.append('svg:linearGradient')
     .attr('spreadMethod', 'pad');
 
 orangeGradient.append('svg:stop')
-    .attr('offset', '0%')
+    .attr('offset', 0)
     .attr('stop-color', '#f6e6b4')
     .attr('stop-opacity', 1);
 
