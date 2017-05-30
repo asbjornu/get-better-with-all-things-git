@@ -41,30 +41,28 @@ orangeGradient.append('svg:stop')
     .attr('stop-color', '#ed9017')
     .attr('stop-opacity', 1);
 
-var head = defs.append('svg:marker')
-    .attr('id', 'head')
+var arrow = defs.append('svg:marker')
+    .attr('id', 'arrow')
     .attr('orient', 'auto')
     .attr('markerWidth', 2)
     .attr('markerHeight', 4)
     .attr('refX', 0.1)
     .attr('refY', 2);
 
-head.append('path')
+arrow.append('path')
     .attr('d', 'M0,0 V4 L2,2 Z')
     .attr('fill', '#aaa');
 
-var lineData = d3.line()
-    .x(function(d) {
-        return d.x;
-    })
-    .y(function(d) {
-        return d.y;
-    });
+var line = d3.line()
+    .x(function(d) { return d.x; })
+    .y(function(d) { return d.y; });
 
 Reveal.initialize();
 Reveal.addEventListener('slidechanged', drawGraph);
 Reveal.addEventListener('fragmentshown', drawGraph);
 Reveal.addEventListener('fragmenthidden', drawGraph);
+
+var appended = false;
 
 function drawGraph(event) {
     var id = Reveal.getCurrentSlide().id;
@@ -74,7 +72,8 @@ function drawGraph(event) {
         return;
     }
 
-    var nodes = [{
+    var nodes = [
+        {
             x: 200,
             y: 50,
             c: 'b',
@@ -118,68 +117,84 @@ function drawGraph(event) {
 
     switch (step) {
         case -1:
-            graph.selectAll('path.nodes')
-                .data(nodes)
-                .enter()
-                .append('path')
-                .attr('d', function(currentNode, i) {
-                    var nextNode = i < nodes.length - 1 ?
-                        nodes[i + 1] :
-                        nodes[0];
+            var paths;
 
-                    startPath = {
-                        x: currentNode.x,
-                        y: currentNode.y,
-                        c: currentNode.c
-                    };
+            if (!appended) {
+                paths = graph.selectAll('path.nodes')
+                    .data(nodes)
+                    .enter()
+                    .append('path')
+                    .attr('stroke', '#aaa')
+                    .attr('stroke-width', 10)
+                    .attr('fill', 'none')
+                    .attr('marker-end', 'url(#arrow)');
 
-                    endPath = {
-                        x: nextNode.x,
-                        y: nextNode.y,
-                        c: nextNode.c
-                    };
+                graph.selectAll('circle.nodes')
+                    .data(nodes)
+                    .enter()
+                    .append('svg:circle')
+                    .attr('cx', function(d) {
+                        return d.x;
+                    })
+                    .attr('cy', function(d) {
+                        return d.y;
+                    })
+                    .attr('r', 19)
+                    .attr('fill', function(d) {
+                        return 'url(#' + d.c + ')';
+                    })
+                    .attr('stroke', function(d) {
+                        switch (d.c) {
+                            case 'b':
+                                return '#2E75B6';
+                            case 'o':
+                                return '#BF9000';
+                        }
+                    });
+            } else {
+                paths = graph.selectAll('path')
+                    .transition();
+            }
 
-                    return lineData([startPath, endPath]);
-                })
-                .attr('stroke', '#aaa')
-                .attr('stroke-width', 10)
-                .attr('fill', 'none')
-                .attr('marker-end', 'url(#head)');
+            paths.attr('d', function(currentNode, i) {
+                if (!currentNode) {
+                    return;
+                }
 
-            graph.selectAll('circle.nodes')
-                .data(nodes)
-                .enter()
-                .append('svg:circle')
-                .attr('cx', function(d) {
-                    return d.x;
-                })
-                .attr('cy', function(d) {
-                    return d.y;
-                })
-                .attr('r', 19)
-                .attr('fill', function(d) {
-                    return 'url(#' + d.c + ')';
-                })
-                .attr('stroke', function(d) {
-                    switch (d.c) {
-                        case 'b':
-                            return '#2E75B6';
-                        case 'o':
-                            return '#BF9000';
-                    }
-                });
+                if (appended) {
+                    // For some reason, the index is base 0 when the elements
+                    // are appended, then 1 based afterwards.
+                    i--;
+                }
 
+                currentNode = nodes[i];
+
+                var nextNode = i < nodes.length - 1 ?
+                    nodes[i + 1] :
+                    nodes[0];
+
+                startPath = {
+                    x: currentNode.x,
+                    y: currentNode.y,
+                    c: currentNode.c
+                };
+
+                endPath = {
+                    x: nextNode.x,
+                    y: nextNode.y,
+                    c: nextNode.c
+                };
+
+                return line([startPath, endPath]);
+            });
+
+            appended = true;
             break;
 
         case 0:
-            console.log('Step 1');
-            console.log(graph.selectAll('path'));
-
             graph.selectAll('path')
                 .transition()
                 .attr('d', function(currentNode, i) {
-                    console.log(currentNode, i);
-
                     if (!currentNode) {
                         return;
                     }
@@ -255,7 +270,7 @@ function drawGraph(event) {
                     endPath.x += margins.next.x;
                     endPath.y += margins.next.y;
 
-                    return lineData([startPath, endPath]);
+                    return line([startPath, endPath]);
                 });
             break;
 
