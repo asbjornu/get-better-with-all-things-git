@@ -120,10 +120,11 @@ function drawGraph(event) {
             var paths;
 
             if (!appended) {
-                paths = graph.selectAll('path.nodes')
+                paths = graph.selectAll('.edge')
                     .data(nodes)
                     .enter()
                     .append('path')
+                    .attr('class', 'edge')
                     .attr('stroke', '#aaa')
                     .attr('stroke-width', 10)
                     .attr('fill', 'none')
@@ -152,67 +153,52 @@ function drawGraph(event) {
                         }
                     });
             } else {
-                paths = graph.selectAll('path')
-                    .transition();
+                paths = graph.selectAll('.edge')
+                    .transition()
+                    .duration(1000);
             }
 
             paths.attr('d', function(currentNode, i) {
-                if (!currentNode) {
-                    return;
-                }
-
-                if (appended) {
-                    // For some reason, the index is base 0 when the elements
-                    // are appended, then 1 based afterwards.
-                    i--;
-                }
-
                 currentNode = nodes[i];
 
                 var nextNode = i < nodes.length - 1 ?
                     nodes[i + 1] :
                     nodes[0];
 
-                startPath = {
+                start = {
                     x: currentNode.x,
                     y: currentNode.y,
                     c: currentNode.c
                 };
 
-                endPath = {
+                end = {
                     x: nextNode.x,
                     y: nextNode.y,
                     c: nextNode.c
                 };
 
-                return line([startPath, endPath]);
+                return line([start, end]);
             });
 
             appended = true;
             break;
 
         case 0:
-            graph.selectAll('path')
+            graph.selectAll('.edge')
                 .transition()
+                .duration(1000)
                 .attr('d', function(currentNode, i) {
-                    if (!currentNode) {
-                        return;
-                    }
-
-                    // For some reason, the index is suddenly base 1, not 0.
-                    i--;
-
                     var nextNode = i < nodes.length - 1 ?
                         nodes[i + 1] :
                         nodes[0];
 
-                    startPath = {
+                    start = {
                         x: currentNode.x,
                         y: currentNode.y,
                         c: currentNode.c
                     };
 
-                    endPath = {
+                    end = {
                         x: nextNode.x,
                         y: nextNode.y,
                         c: nextNode.c
@@ -265,12 +251,12 @@ function drawGraph(event) {
                             margins.current.y * -1.5;
                     }
 
-                    startPath.x += margins.current.x;
-                    startPath.y += margins.current.y;
-                    endPath.x += margins.next.x;
-                    endPath.y += margins.next.y;
+                    start.x += margins.current.x;
+                    start.y += margins.current.y;
+                    end.x += margins.next.x;
+                    end.y += margins.next.y;
 
-                    return line([startPath, endPath]);
+                    return line([start, end]);
                 });
             break;
 
