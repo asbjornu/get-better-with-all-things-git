@@ -5,41 +5,9 @@ var graph = d3.select('.graph')
 
 var defs = graph.append('svg:defs');
 
-var blueGradient = defs.append('svg:linearGradient')
-    .attr('id', 'b')
-    .attr('x1', 0)
-    .attr('y1', 0)
-    .attr('x2', 0)
-    .attr('y2', 1)
-    .attr('spreadMethod', 'pad');
-
-blueGradient.append('svg:stop')
-    .attr('offset', '0%')
-    .attr('stop-color', '#e4f5fc')
-    .attr('stop-opacity', 1);
-
-blueGradient.append('svg:stop')
-    .attr('offset', '100%')
-    .attr('stop-color', '#2ab0ed')
-    .attr('stop-opacity', 1);
-
-var orangeGradient = defs.append('svg:linearGradient')
-    .attr('id', 'o')
-    .attr('x1', 0)
-    .attr('y1', 0)
-    .attr('x2', 0)
-    .attr('y2', 1)
-    .attr('spreadMethod', 'pad');
-
-orangeGradient.append('svg:stop')
-    .attr('offset', 0)
-    .attr('stop-color', '#f6e6b4')
-    .attr('stop-opacity', 1);
-
-orangeGradient.append('svg:stop')
-    .attr('offset', '100%')
-    .attr('stop-color', '#ed9017')
-    .attr('stop-opacity', 1);
+createGradient('b', '#e4f5fc', '#2ab0ed');
+createGradient('o', '#f6e6b4', '#ed9017');
+createGradient('g', '#e2f0d9', '#c5e0b4');
 
 var arrow = defs.append('svg:marker')
     .attr('id', 'arrow')
@@ -59,6 +27,28 @@ Reveal.addEventListener('fragmentshown', drawGraph);
 Reveal.addEventListener('fragmenthidden', drawGraph);
 
 var appended = false;
+
+function createGradient(id, fromColor, toColor) {
+    var gradient = defs.append('svg:linearGradient')
+        .attr('id', id)
+        .attr('x1', 0)
+        .attr('y1', 0)
+        .attr('x2', 0)
+        .attr('y2', 1)
+        .attr('spreadMethod', 'pad');
+
+    gradient.append('svg:stop')
+        .attr('offset', 0)
+        .attr('stop-color', fromColor)
+        .attr('stop-opacity', 1);
+
+    gradient.append('svg:stop')
+        .attr('offset', '100%')
+        .attr('stop-color', toColor)
+        .attr('stop-opacity', 1);
+
+    return gradient;
+}
 
 function getPathBounds(nodes, index) {
     var currentNode = nodes[index];
@@ -118,7 +108,7 @@ function drawGraph(event) {
         {
             x: 725,
             y: 175,
-            c: 'b'
+            c: 'g'
         },
         {
             x: 600,
@@ -138,7 +128,7 @@ function drawGraph(event) {
         {
             x: 75,
             y: 175,
-            c: 'o'
+            c: 'g'
         }
     ];
 
@@ -161,22 +151,20 @@ function drawGraph(event) {
                     .data(nodes)
                     .enter()
                     .append('svg:circle')
-                    .attr('cx', function(d) {
-                        return d.x;
-                    })
-                    .attr('cy', function(d) {
-                        return d.y;
-                    })
+                    .attr('cx', function(d) { return d.x; })
+                    .attr('cy', function(d) { return d.y; })
                     .attr('r', 19)
-                    .attr('fill', function(d) {
-                        return 'url(#' + d.c + ')';
-                    })
+                    .attr('fill', function(d) { return 'url(#' + d.c + ')'; })
                     .attr('stroke', function(d) {
                         switch (d.c) {
                             case 'b':
-                                return '#2E75B6';
+                                return '#2e75b6';
+
                             case 'o':
-                                return '#BF9000';
+                                return '#bf9000';
+
+                            case 'g':
+                                return '#548235';
                         }
                     });
             } else {
