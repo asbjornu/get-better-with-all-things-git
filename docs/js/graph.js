@@ -52,6 +52,18 @@ function createGradient(id, fromColor, toColor) {
 }
 
 function getPathBounds(nodes, index) {
+    var leftMostNode = nodes.slice().sort(function(a, b) {
+        if (a.x === b.x) {
+            return 0;
+        }
+
+        if (a.x < b.x) {
+            return -1;
+        }
+
+        return 1;
+    })[0];
+
     var currentNode = nodes[index];
     var nextNode = index < nodes.length - 1 ?
         nodes[index + 1] :
@@ -77,7 +89,11 @@ function getPathBounds(nodes, index) {
         start: start,
         end: end,
         line: function() {
-            return line([start, end]);
+            if (start.x > leftMostNode.x && start.y < leftMostNode.y) {
+                return line([end, start]);
+            } else {
+                return line([start, end]);
+            }
         }
     };
 }
@@ -95,8 +111,6 @@ function drawGraph(event) {
     if (!nav.stepVisited) {
         visited.push(nav.step);
     }
-
-    console.log(nav);
 
     if (nav.id != 'dag1') {
         return;
@@ -197,14 +211,11 @@ function drawGraph(event) {
                                 return '#548235';
                         }
                     });
-
-                graph.selectAll('.edge')
-                    .attr('marker-end', 'url(#arrow)');
             } else {
                 graph.selectAll('.edge')
                     .transition()
                     .duration(1000)
-                    .attr('d', function(c, i) {
+                    .attr('d', function(node, i) {
                         var bounds = getPathBounds(nodes, i);
                         return bounds.line();
                     });
@@ -215,8 +226,29 @@ function drawGraph(event) {
             graph.selectAll('.edge')
                 .transition()
                 .duration(1000)
-                .attr('d', function(c, i) {
+                .attr('d', function(node, i) {
                     var bounds = getPathBounds(nodes, i);
+
+                    if (i == 2) {
+                        bounds.end.x = bounds.start.x;
+                        bounds.end.y = bounds.start.y;
+                    }
+
+                    return bounds.line();
+                });
+            break;
+
+        case 2:
+            graph.selectAll('.edge')
+                .transition()
+                .duration(1000)
+                .attr('d', function(node, i) {
+                    var bounds = getPathBounds(nodes, i);
+
+                    if (i == 2) {
+                        bounds.end.x = bounds.start.x;
+                        bounds.end.y = bounds.start.y;
+                    }
 
                     var diff = {
                         x: bounds.end.x - bounds.start.x,
@@ -272,7 +304,8 @@ function drawGraph(event) {
                     bounds.end.y += margins.end.y;
 
                     return bounds.line();
-                });
+                })
+                .attr('marker-end', 'url(#arrow)');
             break;
     }
 
