@@ -53,16 +53,43 @@ arrow.append('path')
     .attr('d', 'M0,0 V4 L2,2 Z')
     .attr('fill', '#aaa');
 
-var line = d3.line()
-    .x(function(d) { return d.x; })
-    .y(function(d) { return d.y; });
-
 Reveal.initialize();
 Reveal.addEventListener('slidechanged', drawGraph);
 Reveal.addEventListener('fragmentshown', drawGraph);
 Reveal.addEventListener('fragmenthidden', drawGraph);
 
 var appended = false;
+
+function getPathBounds(nodes, index) {
+    var currentNode = nodes[index];
+    var nextNode = index < nodes.length - 1 ?
+        nodes[index + 1] :
+        nodes[0];
+
+    var start = {
+        x: currentNode.x,
+        y: currentNode.y,
+        c: currentNode.c
+    };
+
+    var end = {
+        x: nextNode.x,
+        y: nextNode.y,
+        c: nextNode.c
+    };
+
+    var line = d3.line()
+        .x(function(d) { return d.x; })
+        .y(function(d) { return d.y; });
+
+    return {
+        start: start,
+        end: end,
+        line: function() {
+            return line([start, end]);
+        }
+    };
+}
 
 function drawGraph(event) {
     var id = Reveal.getCurrentSlide().id;
@@ -158,26 +185,9 @@ function drawGraph(event) {
                     .duration(1000);
             }
 
-            paths.attr('d', function(currentNode, i) {
-                currentNode = nodes[i];
-
-                var nextNode = i < nodes.length - 1 ?
-                    nodes[i + 1] :
-                    nodes[0];
-
-                start = {
-                    x: currentNode.x,
-                    y: currentNode.y,
-                    c: currentNode.c
-                };
-
-                end = {
-                    x: nextNode.x,
-                    y: nextNode.y,
-                    c: nextNode.c
-                };
-
-                return line([start, end]);
+            paths.attr('d', function(c, i) {
+                var bounds = getPathBounds(nodes, i);
+                return bounds.line();
             });
 
             appended = true;
@@ -187,25 +197,12 @@ function drawGraph(event) {
             graph.selectAll('.edge')
                 .transition()
                 .duration(1000)
-                .attr('d', function(currentNode, i) {
-                    var nextNode = i < nodes.length - 1 ?
-                        nodes[i + 1] :
-                        nodes[0];
+                .attr('d', function(c, i) {
+                    var bounds = getPathBounds(nodes, i);
 
-                    start = {
-                        x: currentNode.x,
-                        y: currentNode.y,
-                        c: currentNode.c
-                    };
-
-                    end = {
-                        x: nextNode.x,
-                        y: nextNode.y,
-                        c: nextNode.c
-                    };
                     var diff = {
-                        x: nextNode.x - currentNode.x,
-                        y: nextNode.y - currentNode.y
+                        x: bounds.end.x - bounds.start.x,
+                        y: bounds.end.y - bounds.start.y
                     };
 
                     var margins = {
@@ -251,12 +248,12 @@ function drawGraph(event) {
                             margins.current.y * -1.5;
                     }
 
-                    start.x += margins.current.x;
-                    start.y += margins.current.y;
-                    end.x += margins.next.x;
-                    end.y += margins.next.y;
+                    bounds.start.x += margins.current.x;
+                    bounds.start.y += margins.current.y;
+                    bounds.end.x += margins.next.x;
+                    bounds.end.y += margins.next.y;
 
-                    return line([start, end]);
+                    return bounds.line();
                 });
             break;
 
