@@ -26,7 +26,8 @@ Reveal.addEventListener('slidechanged', drawGraph);
 Reveal.addEventListener('fragmentshown', drawGraph);
 Reveal.addEventListener('fragmenthidden', drawGraph);
 
-var appended = false;
+var visited = [];
+var previousStep = -1;
 
 function createGradient(id, fromColor, toColor) {
     var gradient = defs.append('svg:linearGradient')
@@ -82,10 +83,22 @@ function getPathBounds(nodes, index) {
 }
 
 function drawGraph(event) {
-    var id = Reveal.getCurrentSlide().id;
-    var step = Reveal.getIndices().f;
+    var nav = {
+        id: Reveal.getCurrentSlide().id,
+        step: Reveal.getIndices().f,
+    };
 
-    if (id != 'dag1') {
+    nav.forward = nav.step >= previousStep;
+    nav.backward = nav.step < previousStep;
+    nav.stepVisited = visited.indexOf(nav.step) !== -1;
+
+    if (!nav.stepVisited) {
+        visited.push(nav.step);
+    }
+
+    console.log(nav);
+
+    if (nav.id != 'dag1') {
         return;
     }
 
@@ -93,7 +106,7 @@ function drawGraph(event) {
         {
             x: 200,
             y: 50,
-            c: 'b',
+            c: 'b'
         },
         {
             x: 400,
@@ -132,12 +145,12 @@ function drawGraph(event) {
         }
     ];
 
-    switch (step) {
+    switch (nav.step) {
         case -1:
-            var paths;
+            var edges;
 
-            if (!appended) {
-                paths = graph.selectAll('.edge')
+            if (!nav.stepVisited) {
+                graph.selectAll('.edge')
                     .data(nodes)
                     .enter()
                     .append('path')
@@ -145,12 +158,29 @@ function drawGraph(event) {
                     .attr('stroke', '#aaa')
                     .attr('stroke-width', 10)
                     .attr('fill', 'none')
-                    .attr('marker-end', 'url(#arrow)');
+                    .attr('d', function(c, i) {
+                        var bounds = getPathBounds(nodes, i);
+                        return bounds.line();
+                    });
+            }
 
-                graph.selectAll('circle.nodes')
+            if (nav.backward) {
+                graph.selectAll('.node')
+                    .remove();
+
+                graph.selectAll('.edge')
+                    .attr('marker-end', null);
+            }
+
+            break;
+
+        case 0:
+            if (nav.forward) {
+                graph.selectAll('.node')
                     .data(nodes)
                     .enter()
                     .append('svg:circle')
+                    .attr('class', 'node')
                     .attr('cx', function(d) { return d.x; })
                     .attr('cy', function(d) { return d.y; })
                     .attr('r', 19)
@@ -167,21 +197,21 @@ function drawGraph(event) {
                                 return '#548235';
                         }
                     });
+
+                graph.selectAll('.edge')
+                    .attr('marker-end', 'url(#arrow)');
             } else {
-                paths = graph.selectAll('.edge')
+                graph.selectAll('.edge')
                     .transition()
-                    .duration(1000);
+                    .duration(1000)
+                    .attr('d', function(c, i) {
+                        var bounds = getPathBounds(nodes, i);
+                        return bounds.line();
+                    });
             }
-
-            paths.attr('d', function(c, i) {
-                var bounds = getPathBounds(nodes, i);
-                return bounds.line();
-            });
-
-            appended = true;
             break;
 
-        case 0:
+        case 1:
             graph.selectAll('.edge')
                 .transition()
                 .duration(1000)
@@ -244,11 +274,7 @@ function drawGraph(event) {
                     return bounds.line();
                 });
             break;
-
-        case 1:
-            break;
-
-        case 2:
-            break;
     }
+
+    previousStep = nav.step;
 }
