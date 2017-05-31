@@ -206,52 +206,52 @@ function drawGraph(event) {
                     };
 
                     var margins = {
-                        current: {
+                        start: {
                             x: 0,
                             y: 0
                         },
-                        next: {
+                        end: {
                             x: 0,
                             y: 0
                         }
                     };
 
                     if (diff.x > 0 && diff.y === 0) {
-                        margins.current.x = 30;
+                        margins.start.x = 30;
                     } else if (diff.x < 0 && diff.y === 0) {
-                        margins.current.x = -30;
+                        margins.start.x = -30;
                     } else if (diff.x > 0) {
-                        margins.current.x = 20;
+                        margins.start.x = 20;
                     } else if (diff.x < 0) {
-                        margins.current.x = -20;
+                        margins.start.x = -20;
                     }
 
                     if (diff.y > 0 && diff.x === 0) {
-                        margins.current.y = 30;
+                        margins.start.y = 30;
                     } else if (diff.y < 0 && diff.x === 0) {
-                        margins.current.y = -30;
+                        margins.start.y = -30;
                     } else if (diff.y > 0) {
-                        margins.current.y = 20;
+                        margins.start.y = 20;
                     } else if (diff.y < 0) {
-                        margins.current.y = -20;
+                        margins.start.y = -20;
                     }
 
-                    if (margins.current.x != 0) {
-                        margins.next.x = margins.current.x < 0 ?
-                            Math.abs(margins.current.x * 1.5) :
-                            margins.current.x * -1.5;
+                    if (margins.start.x != 0) {
+                        margins.end.x = margins.start.x < 0 ?
+                            Math.abs(margins.start.x * 1.5) :
+                            margins.start.x * -1.5;
                     }
 
-                    if (margins.current.y != 0) {
-                        margins.next.y = margins.current.y < 0 ?
-                            Math.abs(margins.current.y * 1.5) :
-                            margins.current.y * -1.5;
+                    if (margins.start.y != 0) {
+                        margins.end.y = margins.start.y < 0 ?
+                            Math.abs(margins.start.y * 1.5) :
+                            margins.start.y * -1.5;
                     }
 
-                    bounds.start.x += margins.current.x;
-                    bounds.start.y += margins.current.y;
-                    bounds.end.x += margins.next.x;
-                    bounds.end.y += margins.next.y;
+                    bounds.start.x += margins.start.x;
+                    bounds.start.y += margins.start.y;
+                    bounds.end.x += margins.end.x;
+                    bounds.end.y += margins.end.y;
 
                     return bounds.line();
                 });
