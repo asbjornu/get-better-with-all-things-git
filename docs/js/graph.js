@@ -51,8 +51,8 @@ function createGradient(id, fromColor, toColor) {
     return gradient;
 }
 
-function Bounds(nodes, index) {
-    var self = this;
+function Edge(nodes, index) {
+    var edge = this;
     var leftMostNode = nodes.slice().sort(function(a, b) {
         if (a.x === b.x) {
             return 0;
@@ -74,6 +74,8 @@ function Bounds(nodes, index) {
         .x(function(d) { return d.x; })
         .y(function(d) { return d.y; });
 
+    this.index = index;
+
     this.start = {
         x: currentNode.x,
         y: currentNode.y,
@@ -91,11 +93,84 @@ function Bounds(nodes, index) {
                 : 'bottom';
 
     this.line = function() {
-        if (self.branch === 'top') {
-            return line([self.end, self.start]);
+        if (edge.branch === 'top') {
+            return line([edge.end, edge.start]);
         } else {
-            return line([self.start, self.end]);
+            return line([edge.start, edge.end]);
         }
+    };
+
+    this.withMargins = function() {
+        if (edge.index == 2) {
+            edge.end.x = edge.start.x;
+            edge.end.y = edge.start.y;
+        }
+
+        var diff = {
+            x: edge.end.x - edge.start.x,
+            y: edge.end.y - edge.start.y
+        };
+
+        var margins = {
+            start: {
+                x: 0,
+                y: 0
+            },
+            end: {
+                x: 0,
+                y: 0
+            }
+        };
+
+        if (diff.x > 0 && diff.y === 0) {
+            margins.start.x = 30;
+        } else if (diff.x < 0 && diff.y === 0) {
+            margins.start.x = -30;
+        } else if (diff.x > 0) {
+            margins.start.x = 20;
+        } else if (diff.x < 0) {
+            margins.start.x = -20;
+        }
+
+        if (diff.y > 0 && diff.x === 0) {
+            margins.start.y = 30;
+        } else if (diff.y < 0 && diff.x === 0) {
+            margins.start.y = -30;
+        } else if (diff.y > 0) {
+            margins.start.y = 20;
+        } else if (diff.y < 0) {
+            margins.start.y = -20;
+        }
+
+        if (margins.start.x != 0) {
+            margins.end.x = margins.start.x < 0 ?
+                Math.abs(margins.start.x * 1.5) :
+                margins.start.x * -1.5;
+        }
+
+        if (margins.start.y != 0) {
+            margins.end.y = margins.start.y < 0 ?
+                Math.abs(margins.start.y * 1.5) :
+                margins.start.y * -1.5;
+        }
+
+        // The top branch edges are inverted, so their margins
+        // needs to be inverted too.
+        if (edge.branch === 'top') {
+            var startX = margins.start.x;
+            var startY = margins.start.y;
+            margins.start.x = margins.end.x * -1;
+            margins.start.y = margins.end.y * -1;
+            margins.end.x = startX * -1;
+            margins.end.y = startY * -1;
+        }
+
+        edge.start.x += margins.start.x;
+        edge.start.y += margins.start.y;
+        edge.end.x += margins.end.x;
+        edge.end.y += margins.end.y;
+
+        return edge;
     };
 }
 
@@ -174,8 +249,8 @@ function drawGraph(event) {
                     .attr('stroke-width', 10)
                     .attr('fill', 'none')
                     .attr('d', function(c, i) {
-                        var bounds = new Bounds(nodes, i);
-                        return bounds.line();
+                        var edge = new Edge(nodes, i);
+                        return edge.line();
                     });
             }
 
@@ -217,8 +292,8 @@ function drawGraph(event) {
                     .transition()
                     .duration(1000)
                     .attr('d', function(node, i) {
-                        var bounds = new Bounds(nodes, i);
-                        return bounds.line();
+                        var edge = new Edge(nodes, i);
+                        return edge.line();
                     });
             }
             break;
@@ -228,15 +303,15 @@ function drawGraph(event) {
                 .transition()
                 .duration(1000)
                 .attr('d', function(node, i) {
-                    var bounds = new Bounds(nodes, i);
+                    var edge = new Edge(nodes, i);
 
                     if (i == 2) {
                         // Make the 2nd path vanish on fragment 1.
-                        bounds.end.x = bounds.start.x;
-                        bounds.end.y = bounds.start.y;
+                        edge.end.x = edge.start.x;
+                        edge.end.y = edge.start.y;
                     }
 
-                    return bounds.line();
+                    return edge.line();
                 });
             break;
 
@@ -245,78 +320,8 @@ function drawGraph(event) {
                 .transition()
                 .duration(1000)
                 .attr('d', function(node, i) {
-                    var bounds = new Bounds(nodes, i);
-
-                    if (i == 2) {
-                        bounds.end.x = bounds.start.x;
-                        bounds.end.y = bounds.start.y;
-                    }
-
-                    var diff = {
-                        x: bounds.end.x - bounds.start.x,
-                        y: bounds.end.y - bounds.start.y
-                    };
-
-                    var margins = {
-                        start: {
-                            x: 0,
-                            y: 0
-                        },
-                        end: {
-                            x: 0,
-                            y: 0
-                        }
-                    };
-
-                    if (diff.x > 0 && diff.y === 0) {
-                        margins.start.x = 30;
-                    } else if (diff.x < 0 && diff.y === 0) {
-                        margins.start.x = -30;
-                    } else if (diff.x > 0) {
-                        margins.start.x = 20;
-                    } else if (diff.x < 0) {
-                        margins.start.x = -20;
-                    }
-
-                    if (diff.y > 0 && diff.x === 0) {
-                        margins.start.y = 30;
-                    } else if (diff.y < 0 && diff.x === 0) {
-                        margins.start.y = -30;
-                    } else if (diff.y > 0) {
-                        margins.start.y = 20;
-                    } else if (diff.y < 0) {
-                        margins.start.y = -20;
-                    }
-
-                    if (margins.start.x != 0) {
-                        margins.end.x = margins.start.x < 0 ?
-                            Math.abs(margins.start.x * 1.5) :
-                            margins.start.x * -1.5;
-                    }
-
-                    if (margins.start.y != 0) {
-                        margins.end.y = margins.start.y < 0 ?
-                            Math.abs(margins.start.y * 1.5) :
-                            margins.start.y * -1.5;
-                    }
-
-                    // The top branch edges are inverted, so their margins
-                    // needs to be inverted too.
-                    if (bounds.branch === 'top') {
-                        var startX = margins.start.x;
-                        var startY = margins.start.y;
-                        margins.start.x = margins.end.x * -1;
-                        margins.start.y = margins.end.y * -1;
-                        margins.end.x = startX * -1;
-                        margins.end.y = startY * -1;
-                    }
-
-                    bounds.start.x += margins.start.x;
-                    bounds.start.y += margins.start.y;
-                    bounds.end.x += margins.end.x;
-                    bounds.end.y += margins.end.y;
-
-                    return bounds.line();
+                    var edge = new Edge(nodes, i).withMargins();
+                    return edge.line();
                 })
                 .attr('marker-end', 'url(#arrow)');
             break;
