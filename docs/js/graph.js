@@ -85,11 +85,16 @@ function getPathBounds(nodes, index) {
         .x(function(d) { return d.x; })
         .y(function(d) { return d.y; });
 
+    var branch = end.x > leftMostNode.x && end.y < leftMostNode.y
+                  ? 'top'
+                  : 'bottom';
+
     return {
         start: start,
         end: end,
+        branch: branch,
         line: function() {
-            if (start.x > leftMostNode.x && start.y < leftMostNode.y) {
+            if (branch === 'top') {
                 return line([end, start]);
             } else {
                 return line([start, end]);
@@ -230,6 +235,7 @@ function drawGraph(event) {
                     var bounds = getPathBounds(nodes, i);
 
                     if (i == 2) {
+                        // Make the 2nd path vanish on fragment 1.
                         bounds.end.x = bounds.start.x;
                         bounds.end.y = bounds.start.y;
                     }
@@ -296,6 +302,17 @@ function drawGraph(event) {
                         margins.end.y = margins.start.y < 0 ?
                             Math.abs(margins.start.y * 1.5) :
                             margins.start.y * -1.5;
+                    }
+
+                    // The top branch edges are inverted, so their margins
+                    // needs to be inverted too.
+                    if (bounds.branch === 'top') {
+                        var startX = margins.start.x;
+                        var startY = margins.start.y;
+                        margins.start.x = margins.end.x * -1;
+                        margins.start.y = margins.end.y * -1;
+                        margins.end.x = startX * -1;
+                        margins.end.y = startY * -1;
                     }
 
                     bounds.start.x += margins.start.x;
