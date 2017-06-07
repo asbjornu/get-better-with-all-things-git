@@ -51,7 +51,8 @@ function createGradient(id, fromColor, toColor) {
     return gradient;
 }
 
-function getPathBounds(nodes, index) {
+function Bounds(nodes, index) {
+    var self = this;
     var leftMostNode = nodes.slice().sort(function(a, b) {
         if (a.x === b.x) {
             return 0;
@@ -69,36 +70,31 @@ function getPathBounds(nodes, index) {
         nodes[index + 1] :
         nodes[0];
 
-    var start = {
+    var line = d3.line()
+        .x(function(d) { return d.x; })
+        .y(function(d) { return d.y; });
+
+    this.start = {
         x: currentNode.x,
         y: currentNode.y,
         c: currentNode.c
     };
 
-    var end = {
+    this.end = {
         x: nextNode.x,
         y: nextNode.y,
         c: nextNode.c
     };
 
-    var line = d3.line()
-        .x(function(d) { return d.x; })
-        .y(function(d) { return d.y; });
+    this.branch = this.end.x > leftMostNode.x && this.end.y < leftMostNode.y
+                ? 'top'
+                : 'bottom';
 
-    var branch = end.x > leftMostNode.x && end.y < leftMostNode.y
-                  ? 'top'
-                  : 'bottom';
-
-    return {
-        start: start,
-        end: end,
-        branch: branch,
-        line: function() {
-            if (branch === 'top') {
-                return line([end, start]);
-            } else {
-                return line([start, end]);
-            }
+    this.line = function() {
+        if (self.branch === 'top') {
+            return line([self.end, self.start]);
+        } else {
+            return line([self.start, self.end]);
         }
     };
 }
@@ -178,7 +174,7 @@ function drawGraph(event) {
                     .attr('stroke-width', 10)
                     .attr('fill', 'none')
                     .attr('d', function(c, i) {
-                        var bounds = getPathBounds(nodes, i);
+                        var bounds = new Bounds(nodes, i);
                         return bounds.line();
                     });
             }
@@ -221,7 +217,7 @@ function drawGraph(event) {
                     .transition()
                     .duration(1000)
                     .attr('d', function(node, i) {
-                        var bounds = getPathBounds(nodes, i);
+                        var bounds = new Bounds(nodes, i);
                         return bounds.line();
                     });
             }
@@ -232,7 +228,7 @@ function drawGraph(event) {
                 .transition()
                 .duration(1000)
                 .attr('d', function(node, i) {
-                    var bounds = getPathBounds(nodes, i);
+                    var bounds = new Bounds(nodes, i);
 
                     if (i == 2) {
                         // Make the 2nd path vanish on fragment 1.
@@ -249,7 +245,7 @@ function drawGraph(event) {
                 .transition()
                 .duration(1000)
                 .attr('d', function(node, i) {
-                    var bounds = getPathBounds(nodes, i);
+                    var bounds = new Bounds(nodes, i);
 
                     if (i == 2) {
                         bounds.end.x = bounds.start.x;
