@@ -101,6 +101,7 @@ function Edge(nodes, index) {
     };
 
     this.withMargins = function() {
+        // Make the 2nd path vanish on fragment 1.
         if (edge.index == 2) {
             edge.end.x = edge.start.x;
             edge.end.y = edge.start.y;
