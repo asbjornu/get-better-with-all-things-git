@@ -53,7 +53,7 @@ function createGradient(id, fromColor, toColor) {
     return gradient;
 }
 
-function Edge(nodes, index) {
+function Edge(nodes, index, node) {
     var edge = this;
     var leftMostNode = nodes.slice().sort(function(a, b) {
         if (a.x === b.x) {
@@ -67,10 +67,16 @@ function Edge(nodes, index) {
         return 1;
     })[0];
 
-    var currentNode = nodes[index];
-    var nextNode = index < nodes.length - 1 ?
-        nodes[index + 1] :
-        nodes[0];
+    var currentNode = node || nodes[index];
+    var nextNode;
+
+    if (currentNode.p) {
+        nextNode = nodes.filter(n => n.id === currentNode.p)[0];
+    } else if (index < nodes.length - 1) {
+        nextNode = nodes[index + 1];
+    } else {
+        nextNode = nodes[0];
+    }
 
     var line = d3.line()
         .x(function(d) { return d.x; })
@@ -90,12 +96,12 @@ function Edge(nodes, index) {
         c: nextNode.c
     };
 
-    this.branch = this.end.x > leftMostNode.x && this.end.y < leftMostNode.y
-                ? 'top'
-                : 'bottom';
+    this.direction = (currentNode.r === true) || (this.end.x > leftMostNode.x && this.end.y < leftMostNode.y)
+                ? 'reverse'
+                : 'forward';
 
     this.line = function() {
-        if (edge.branch === 'top') {
+        if (edge.direction === 'reverse') {
             return line([edge.end, edge.start]);
         } else {
             return line([edge.start, edge.end]);
@@ -104,6 +110,7 @@ function Edge(nodes, index) {
 
     this.withMargins = function() {
         // Make the 2nd path vanish on fragment 1.
+        // TODO: This doesn't really belong here.
         if (edge.index == 2) {
             edge.end.x = edge.start.x;
             edge.end.y = edge.start.y;
@@ -126,23 +133,23 @@ function Edge(nodes, index) {
         };
 
         if (diff.x > 0 && diff.y === 0) {
-            margins.start.x = 30;
+            margins.start.x = 35;
         } else if (diff.x < 0 && diff.y === 0) {
-            margins.start.x = -30;
+            margins.start.x = -35;
         } else if (diff.x > 0) {
-            margins.start.x = 20;
+            margins.start.x = 25;
         } else if (diff.x < 0) {
-            margins.start.x = -20;
+            margins.start.x = -25;
         }
 
         if (diff.y > 0 && diff.x === 0) {
-            margins.start.y = 30;
+            margins.start.y = 35;
         } else if (diff.y < 0 && diff.x === 0) {
-            margins.start.y = -30;
+            margins.start.y = -35;
         } else if (diff.y > 0) {
-            margins.start.y = 20;
+            margins.start.y = 25;
         } else if (diff.y < 0) {
-            margins.start.y = -20;
+            margins.start.y = -25;
         }
 
         if (margins.start.x != 0) {
@@ -157,9 +164,9 @@ function Edge(nodes, index) {
                 margins.start.y * -1.5;
         }
 
-        // The top branch edges are inverted, so their margins
+        // If the edge is reversed, its margins
         // needs to be inverted too.
-        if (edge.branch === 'top') {
+        if (edge.direction === 'reverse') {
             var startX = margins.start.x;
             var startY = margins.start.y;
             margins.start.x = margins.end.x * -1;
@@ -212,7 +219,7 @@ function drawGraph(event) {
         {
             x: centerX - 200,
             y: centerY - 100,
-            c: 'b'
+            c: 'b',
         },
         {
             x: centerX,
@@ -245,6 +252,7 @@ function drawGraph(event) {
             c: 'o'
         },
         {
+            id: 'n1',
             x: centerX - 300,
             y: centerY,
             c: 'g'
@@ -289,7 +297,7 @@ function drawGraph(event) {
                     .attr('class', 'node')
                     .attr('cx', function(d) { return d.x; })
                     .attr('cy', function(d) { return d.y; })
-                    .attr('r', 19)
+                    .attr('r', 25)
                     .attr('fill', function(d) { return 'url(#' + d.c + ')'; })
                     .attr('stroke', function(d) {
                         switch (d.c) {
@@ -342,6 +350,50 @@ function drawGraph(event) {
                 .attr('marker-end', 'url(#arrow)');
 
             graph.select('#n0').remove();
+            break;
+
+        case 3:
+            var node = {
+                id: 'n0',
+                p: 'n1',
+                r: true,
+                x: centerX - 450,
+                y: centerY,
+                c: 'g'
+            };
+
+            graph.append('path')
+                .datum(node)
+                .attr('class', 'edge')
+                .attr('stroke', '#aaa')
+                .attr('stroke-width', 10)
+                .attr('fill', 'none')
+                .attr('marker-end', 'url(#arrow)')
+                .attr('d', function(c, i) {
+                    var edge = new Edge(nodes, i, c).withMargins();
+                    return edge.line();
+                });
+
+            graph.append('circle')
+                .datum(node)
+                .attr('class', 'node')
+                .attr('id', 'n0')
+                .attr('cx', function(d) { return d.x; })
+                .attr('cy', function(d) { return d.y; })
+                .attr('r', 25)
+                .attr('fill', function(d) { return 'url(#' + d.c + ')'; })
+                .attr('stroke', function(d) {
+                    switch (d.c) {
+                        case 'b':
+                            return '#2e75b6';
+
+                        case 'o':
+                            return '#bf9000';
+
+                        case 'g':
+                            return '#548235';
+                    }
+                });
             break;
     }
 
