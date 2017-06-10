@@ -109,13 +109,6 @@ function Edge(nodes, index, node) {
     };
 
     this.withMargins = function() {
-        // Make the 2nd path vanish on fragment 1.
-        // TODO: This doesn't really belong here.
-        if (edge.index == 2) {
-            edge.end.x = edge.start.x;
-            edge.end.y = edge.start.y;
-        }
-
         var diff = {
             x: edge.end.x - edge.start.x,
             y: edge.end.y - edge.start.y
@@ -179,6 +172,22 @@ function Edge(nodes, index, node) {
         edge.start.y += margins.start.y;
         edge.end.x += margins.end.x;
         edge.end.y += margins.end.y;
+
+        return edge;
+    };
+
+    this.collapse = function(predicate, to) {
+        if (predicate !== true) {
+            return edge;
+        }
+
+        if (to === 'end') {
+            edge.start.x = edge.end.x;
+            edge.start.y = edge.end.y;
+        } else {
+            edge.end.x = edge.start.x;
+            edge.end.y = edge.start.y;
+        }
 
         return edge;
     };
@@ -263,6 +272,24 @@ function drawGraph(event) {
         case -1:
             var edges;
 
+            graph.append('path')
+                .datum({
+                    id: 'n0',
+                    p: 'n1',
+                    r: true,
+                    x: centerX - 450,
+                    y: centerY,
+                    c: 'g'
+                })
+                .attr('class', 'origo')
+                .attr('stroke', '#aaa')
+                .attr('stroke-width', 10)
+                .attr('fill', 'none')
+                .attr('d', function(c, i) {
+                    var edge = new Edge(nodes, i, c).collapse(true, 'end');
+                    return edge.line();
+                });
+
             if (!nav.stepVisited) {
                 graph.selectAll('.edge')
                     .data(nodes)
@@ -327,13 +354,9 @@ function drawGraph(event) {
                 .transition()
                 .duration(1000)
                 .attr('d', function(node, i) {
-                    var edge = new Edge(nodes, i);
-
-                    if (i == 2) {
-                        // Make the 2nd path vanish on fragment 1.
-                        edge.end.x = edge.start.x;
-                        edge.end.y = edge.start.y;
-                    }
+                    var edge = new Edge(nodes, i)
+                        // Make the 2nd path vanish on fragment 1 and onward.
+                        .collapse(i === 2);
 
                     return edge.line();
                 });
@@ -344,56 +367,50 @@ function drawGraph(event) {
                 .transition()
                 .duration(1000)
                 .attr('d', function(node, i) {
-                    var edge = new Edge(nodes, i).withMargins();
+                    var edge = new Edge(nodes, i).withMargins()
+                        // Make the 2nd path vanish on fragment 1 and onward.
+                        .collapse(i === 2);
+
                     return edge.line();
                 })
-                .attr('marker-end', 'url(#arrow)');
+                .attr('marker-end', function(c, i) {
+                    return (i == 2) ? null : 'url(#arrow)';
+                });
 
             graph.select('#n0').remove();
             break;
 
         case 3:
-            var node = {
-                id: 'n0',
-                p: 'n1',
-                r: true,
-                x: centerX - 450,
-                y: centerY,
-                c: 'g'
-            };
-
-            graph.append('path')
-                .datum(node)
-                .attr('class', 'edge')
-                .attr('stroke', '#aaa')
-                .attr('stroke-width', 10)
-                .attr('fill', 'none')
+            d3.select('.origo')
+                .transition()
+                .duration(1000)
                 .attr('marker-end', 'url(#arrow)')
-                .attr('d', function(c, i) {
-                    var edge = new Edge(nodes, i, c).withMargins();
+                .attr('d', function(node, i) {
+                    var edge = new Edge(nodes, i, node).withMargins();
                     return edge.line();
+                }).on('end', function(node, i) {
+                    graph.append('circle')
+                        .datum(node)
+                        .attr('class', 'node')
+                        .attr('id', 'n0')
+                        .attr('cx', function(d) { return d.x; })
+                        .attr('cy', function(d) { return d.y; })
+                        .attr('r', 25)
+                        .attr('fill', function(d) { return 'url(#' + d.c + ')'; })
+                        .attr('stroke', function(d) {
+                            switch (d.c) {
+                                case 'b':
+                                    return '#2e75b6';
+
+                                case 'o':
+                                    return '#bf9000';
+
+                                case 'g':
+                                    return '#548235';
+                            }
+                        });
                 });
 
-            graph.append('circle')
-                .datum(node)
-                .attr('class', 'node')
-                .attr('id', 'n0')
-                .attr('cx', function(d) { return d.x; })
-                .attr('cy', function(d) { return d.y; })
-                .attr('r', 25)
-                .attr('fill', function(d) { return 'url(#' + d.c + ')'; })
-                .attr('stroke', function(d) {
-                    switch (d.c) {
-                        case 'b':
-                            return '#2e75b6';
-
-                        case 'o':
-                            return '#bf9000';
-
-                        case 'g':
-                            return '#548235';
-                    }
-                });
             break;
     }
 
