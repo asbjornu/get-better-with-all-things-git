@@ -1,7 +1,5 @@
 var graph = d3.select('.graph')
-    .append('svg')
-    .attr('width', window.innerWidth)
-    .attr('height', window.innerHeight);
+    .append('svg');
 
 var defs = graph.append('svg:defs');
 
@@ -21,7 +19,11 @@ arrow.append('path')
     .attr('d', 'M0,0 V4 L2,2 Z')
     .attr('fill', '#aaa');
 
-Reveal.initialize();
+Reveal.initialize({
+    width: 1920,
+	height: 1080,
+	margin: 0.1,
+});
 Reveal.addEventListener('slidechanged', drawGraph);
 Reveal.addEventListener('fragmentshown', drawGraph);
 Reveal.addEventListener('fragmenthidden', drawGraph);
@@ -193,45 +195,58 @@ function drawGraph(event) {
         return;
     }
 
+    Reveal.configure({ center: false, margins: 0 });
+
+    var container = document.querySelector('.present').parentNode;
+    var width = container.offsetWidth;
+    var height = container.offsetHeight;
+
+    console.log(container, width, height);
+
+    graph.attr('width', width).attr('height', height);
+
+    var centerX = width / 2;
+    var centerY = height / 2;
+
     var nodes = [
         {
-            x: 200,
-            y: 50,
+            x: centerX - 200,
+            y: centerY - 100,
             c: 'b'
         },
         {
-            x: 400,
-            y: 50,
+            x: centerX,
+            y: centerY - 100,
             c: 'b'
         },
         {
-            x: 600,
-            y: 50,
+            x: centerX + 200,
+            y: centerY - 100,
             c: 'b'
         },
         {
-            x: 725,
-            y: 175,
+            x: centerX + 300,
+            y: centerY,
             c: 'g'
         },
         {
-            x: 600,
-            y: 300,
+            x: centerX + 200,
+            y: centerY + 100,
             c: 'o'
         },
         {
-            x: 400,
-            y: 300,
+            x: centerX,
+            y: centerY + 100,
             c: 'o'
         },
         {
-            x: 200,
-            y: 300,
+            x: centerX - 200,
+            y: centerY + 100,
             c: 'o'
         },
         {
-            x: 75,
-            y: 175,
+            x: centerX - 300,
+            y: centerY,
             c: 'g'
         }
     ];
@@ -270,7 +285,7 @@ function drawGraph(event) {
                 graph.selectAll('.node')
                     .data(nodes)
                     .enter()
-                    .append('svg:circle')
+                    .append('circle')
                     .attr('class', 'node')
                     .attr('cx', function(d) { return d.x; })
                     .attr('cy', function(d) { return d.y; })
@@ -325,6 +340,8 @@ function drawGraph(event) {
                     return edge.line();
                 })
                 .attr('marker-end', 'url(#arrow)');
+
+            graph.select('#n0').remove();
             break;
     }
 
