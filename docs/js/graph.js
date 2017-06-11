@@ -11,12 +11,12 @@ var arrow = defs.append('svg:marker')
     .attr('id', 'arrow')
     .attr('orient', 'auto')
     .attr('markerWidth', 2)
-    .attr('markerHeight', 4)
+    .attr('markerHeight', 3)
     .attr('refX', 0.1)
-    .attr('refY', 2);
+    .attr('refY', 1.5);
 
 arrow.append('path')
-    .attr('d', 'M0,0 V4 L2,2 Z')
+    .attr('d', 'M0,0 V3 L1.5,1.5 Z')
     .attr('fill', '#aaa');
 
 Reveal.initialize({
@@ -128,35 +128,35 @@ function Edge(path, nodes, index, node) {
         };
 
         if (diff.x > 0 && diff.y === 0) {
-            margins.start.x = 35;
+            margins.start.x = 30;
         } else if (diff.x < 0 && diff.y === 0) {
-            margins.start.x = -35;
+            margins.start.x = -30;
         } else if (diff.x > 0) {
-            margins.start.x = 25;
+            margins.start.x = 22;
         } else if (diff.x < 0) {
-            margins.start.x = -25;
+            margins.start.x = -22;
         }
 
         if (diff.y > 0 && diff.x === 0) {
-            margins.start.y = 35;
+            margins.start.y = 30;
         } else if (diff.y < 0 && diff.x === 0) {
-            margins.start.y = -35;
+            margins.start.y = -30;
         } else if (diff.y > 0) {
-            margins.start.y = 25;
+            margins.start.y = 22;
         } else if (diff.y < 0) {
-            margins.start.y = -25;
+            margins.start.y = -22;
         }
 
         if (margins.start.x != 0) {
             margins.end.x = margins.start.x < 0 ?
-                Math.abs(margins.start.x * 1.5) :
-                margins.start.x * -1.5;
+                Math.abs(margins.start.x * 1.4) :
+                margins.start.x * -1.4;
         }
 
         if (margins.start.y != 0) {
             margins.end.y = margins.start.y < 0 ?
-                Math.abs(margins.start.y * 1.5) :
-                margins.start.y * -1.5;
+                Math.abs(margins.start.y * 1.4) :
+                margins.start.y * -1.4;
         }
 
         edge.start.x += margins.start.x;
