@@ -7,6 +7,7 @@ createGradient('b', '#e4f5fc', '#2ab0ed');
 createGradient('o', '#f6e6b4', '#ed9017');
 createGradient('g', '#e2f0d9', '#c5e0b4');
 createGradient('r', '#f8cbad', '#f4b183');
+createGradient('w', '#ffffff', '#d9d9d9');
 
 var arrow = defs.append('svg:marker')
     .attr('id', 'arrow')
@@ -45,6 +46,9 @@ function stroke(d) {
 
         case 'r':
             return '#ed7d31';
+
+        case 'w':
+            return '#bfbfbf';
     }
 }
 
@@ -537,17 +541,25 @@ function drawGraph(event) {
                 },
                 {
                     n: 'master',
-                    p: 'g4',
                     w: 150,
                     h: 50,
                     x: centerX + 700,
                     y: centerY - 400,
                     c: 'g'
+                },
+                {
+                    n: 'HEAD',
+                    p: 'g4',
+                    w: 150,
+                    h: 50,
+                    x: centerX + 700,
+                    y: centerY - 325,
+                    c: 'w'
                 }
             ];
 
             var edges = graph.selectAll('.ref-edge')
-                .data(references)
+                .data(references.filter(function(r) { return r.p; }))
                 .enter()
                 .append('path')
                 .attr('class', 'ref-edge')
