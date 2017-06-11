@@ -514,6 +514,33 @@ function drawGraph(event) {
                     x: centerX - 500,
                     y: centerY - 400,
                     c: 'r'
+                },
+                {
+                    n: 'develop',
+                    p: 'b4',
+                    w: 170,
+                    h: 50,
+                    x: centerX + 400,
+                    y: centerY - 500,
+                    c: 'b'
+                },
+                {
+                    n: 'hotfix/login-enumeration',
+                    p: 'o3',
+                    w: 450,
+                    h: 50,
+                    x: centerX + 100,
+                    y: centerY + 400,
+                    c: 'o'
+                },
+                {
+                    n: 'master',
+                    p: 'g4',
+                    w: 150,
+                    h: 50,
+                    x: centerX + 700,
+                    y: centerY - 400,
+                    c: 'g'
                 }
             ];
 
@@ -567,13 +594,13 @@ function drawGraph(event) {
                 .attr('alignment-baseline', 'middle')
                 .attr('text-anchor', 'middle')
                 .attr('class', 'ref-name')
-                .attr('dx', function(ref, i) {
+                .attr('dx', function(ref) {
                     return ref.x;
                 })
-                .attr('dy', function(ref, i) {
+                .attr('dy', function(ref) {
                     return ref.y + 2;
                 })
-                .text(function(ref, i) {
+                .text(function(ref) {
                     return ref.n;
                 });
             break;
