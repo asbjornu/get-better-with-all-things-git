@@ -403,7 +403,8 @@ function drawGraph(event) {
                             : 25;
                     })
                     .attr('fill', function(node) { return 'url(#' + node.c + ')'; })
-                    .attr('stroke', stroke);
+                    .attr('stroke', stroke)
+                    .attr('stroke-width', 2);
             } else {
                 graph.selectAll('.edge')
                     .transition()
@@ -480,7 +481,8 @@ function drawGraph(event) {
                         .attr('cy', function(d) { return d.y; })
                         .attr('r', 25)
                         .attr('fill', function(d) { return 'url(#' + d.c + ')'; })
-                        .attr('stroke', stroke);
+                        .attr('stroke', stroke)
+                        .attr('stroke-width', 2);
                 });
             break;
 
@@ -580,7 +582,8 @@ function drawGraph(event) {
                 .attr('fill', function(ref) {
                     return 'url(#' + ref.c + ')';
                 })
-                .attr('stroke', stroke);
+                .attr('stroke', stroke)
+                .attr('stroke-width', 2);
 
             edges.transition().duration(1000).attr('d', function(ref, i) {
                 var edge = new Edge(this, nodes, i, ref).withMargins();
