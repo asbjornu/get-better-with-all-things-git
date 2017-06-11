@@ -496,11 +496,13 @@ function drawGraph(event) {
                 .enter()
                 .append('text')
                 .attr('class', 'node-name')
+                .attr('alignment-baseline', 'middle')
+                .attr('text-anchor', 'middle')
                 .attr('dx', function(node, i) {
-                    return node.x - 11;
+                    return node.x - 1;
                 })
                 .attr('dy', function(node, i) {
-                    return node.y + 12;
+                    return node.y + 3;
                 })
                 .text(function(node, i) {
                     return node.n;
@@ -568,12 +570,14 @@ function drawGraph(event) {
                 .data(references)
                 .enter()
                 .append('text')
+                .attr('alignment-baseline', 'middle')
+                .attr('text-anchor', 'middle')
                 .attr('class', 'ref-name')
                 .attr('dx', function(ref, i) {
-                    return ref.x - 30;
+                    return ref.x;
                 })
                 .attr('dy', function(ref, i) {
-                    return ref.y + 12;
+                    return ref.y + 2;
                 })
                 .text(function(ref, i) {
                     return ref.n;
