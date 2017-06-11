@@ -363,19 +363,29 @@ function drawGraph(event) {
             break;
 
         case 2:
-            graph.selectAll('.edge')
-                .transition()
-                .duration(1000)
-                .attr('d', function(node, i) {
-                    var edge = new Edge(nodes, i).withMargins()
-                        // Make the 2nd path vanish on fragment 1 and onward.
-                        .collapse(i === 2);
+            if (nav.forward) {
+                graph.selectAll('.edge')
+                    .transition()
+                    .duration(1000)
+                    .attr('d', function(node, i) {
+                        var edge = new Edge(nodes, i).withMargins()
+                            // Make the 2nd path vanish on fragment 1 and onward.
+                            .collapse(i === 2);
 
-                    return edge.line();
-                })
-                .attr('marker-end', function(c, i) {
-                    return (i == 2) ? null : 'url(#arrow)';
-                });
+                        return edge.line();
+                    })
+                    .attr('marker-end', function(c, i) {
+                        return (i == 2) ? null : 'url(#arrow)';
+                    });
+            } else {
+                graph.select('.origo')
+                    .transition()
+                    .duration(1000)
+                    .attr('d', function(node, i) {
+                        var edge = new Edge(nodes, i, node).collapse(true, 'end');
+                        return edge.line();
+                    });
+            }
 
             graph.select('#n0').remove();
             break;
