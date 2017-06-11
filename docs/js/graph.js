@@ -364,13 +364,14 @@ function drawGraph(event) {
                     .data(nodes)
                     .enter()
                     .append('path')
+                    .attr('opacity', 1)
                     .attr('id', function(node, i) {
                         return node.id;
                     })
                     .attr('class', function(node, i) {
                         return (node.h === true) || (node.h === 'path')
-                            ? 'edge hidden'
-                            : 'edge';
+                            ? 'edge hidden commit'
+                            : 'edge commit';
                     })
                     .attr('stroke', '#aaa')
                     .attr('stroke-width', 10)
@@ -398,7 +399,8 @@ function drawGraph(event) {
                     .data(nodes)
                     .enter()
                     .append('circle')
-                    .attr('class', 'node')
+                    .attr('class', 'node commit')
+                    .attr('opacity', 1)
                     .attr('cx', function(node) { return node.x; })
                     .attr('cy', function(node) { return node.y; })
                     .attr('r', function(node, i) {
@@ -479,7 +481,8 @@ function drawGraph(event) {
                 }).on('end', function(node, i) {
                     graph.append('circle')
                         .datum(node)
-                        .attr('class', 'node')
+                        .attr('class', 'node commit')
+                        .attr('opacity', 1)
                         .attr('id', 'n0')
                         .attr('cx', function(d) { return d.x; })
                         .attr('cy', function(d) { return d.y; })
@@ -495,7 +498,8 @@ function drawGraph(event) {
                 .data(nodes.filter(function(n) { return n.n; }))
                 .enter()
                 .append('text')
-                .attr('class', 'node-name')
+                .attr('class', 'node-name commit')
+                .attr('opacity', 1)
                 .attr('alignment-baseline', 'middle')
                 .attr('text-anchor', 'middle')
                 .attr('dx', function(node, i) {
@@ -625,6 +629,19 @@ function drawGraph(event) {
 
         case 6:
             d3.selectAll('.ref')
+                .transition()
+                .duration(1000)
+                .attr('opacity', 0.1);
+
+            break;
+
+        case 7:
+            d3.selectAll('.ref')
+                .transition()
+                .duration(1000)
+                .attr('opacity', 1);
+
+            d3.selectAll('.commit')
                 .transition()
                 .duration(1000)
                 .attr('opacity', 0.1);
