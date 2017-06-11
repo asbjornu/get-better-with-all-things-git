@@ -215,6 +215,60 @@ function drawGraph(event) {
 
     var nodes = [
         {
+            id: 'g0',
+            r: true,
+            h: true,
+            x: centerX - 700,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'g1',
+            p: 'g0',
+            h: 'path',
+            x: centerX - 500,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'g2a',
+            p: 'o3',
+            x: centerX + 300,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'g2b',
+            p: 'b3',
+            x: centerX + 300,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'g2c',
+            p: 'g1',
+            h: true,
+            x: centerX + 300,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'g3',
+            p: 'g2a',
+            h: true,
+            x: centerX + 500,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'g4',
+            p: 'g3',
+            h: true,
+            x: centerX + 700,
+            y: centerY,
+            c: 'g'
+        },
+        {
             id: 'b1',
             p: 'g1',
             r: true,
@@ -248,28 +302,6 @@ function drawGraph(event) {
             c: 'b'
         },
         {
-            id: 'g2a',
-            p: 'o3',
-            x: centerX + 300,
-            y: centerY,
-            c: 'g'
-        },
-        {
-            id: 'g2b',
-            p: 'b3',
-            x: centerX + 300,
-            y: centerY,
-            c: 'g'
-        },
-        {
-            id: 'g2c',
-            p: 'g1',
-            h: true,
-            x: centerX + 300,
-            y: centerY,
-            c: 'g'
-        },
-        {
             id: 'o1',
             p: 'g1',
             x: centerX - 300,
@@ -289,38 +321,6 @@ function drawGraph(event) {
             x: centerX + 100,
             y: centerY + 200,
             c: 'o'
-        },
-        {
-            id: 'g1',
-            p: 'g0',
-            h: 'path',
-            x: centerX - 500,
-            y: centerY,
-            c: 'g'
-        },
-        {
-            id: 'g0',
-            r: true,
-            h: true,
-            x: centerX - 700,
-            y: centerY,
-            c: 'g'
-        },
-        {
-            id: 'g3',
-            p: 'g2a',
-            h: true,
-            x: centerX + 500,
-            y: centerY,
-            c: 'g'
-        },
-        {
-            id: 'g4',
-            p: 'g3',
-            h: true,
-            x: centerX + 700,
-            y: centerY,
-            c: 'g'
         }
     ];
 
