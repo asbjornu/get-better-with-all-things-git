@@ -215,6 +215,7 @@ function drawGraph(event) {
 
     var nodes = [
         {
+            n: 'A',
             id: 'g0',
             r: true,
             h: true,
@@ -223,6 +224,7 @@ function drawGraph(event) {
             c: 'g'
         },
         {
+            n: 'B',
             id: 'g1',
             p: 'g0',
             h: 'path',
@@ -231,6 +233,7 @@ function drawGraph(event) {
             c: 'g'
         },
         {
+            n: 'C',
             id: 'g2a',
             p: 'o3',
             x: centerX + 300,
@@ -253,6 +256,7 @@ function drawGraph(event) {
             c: 'g'
         },
         {
+            n: 'D',
             id: 'g3',
             p: 'g2a',
             h: true,
@@ -261,6 +265,7 @@ function drawGraph(event) {
             c: 'g'
         },
         {
+            n: 'E',
             id: 'g4',
             p: 'g3',
             h: true,
@@ -269,6 +274,7 @@ function drawGraph(event) {
             c: 'g'
         },
         {
+            n: 'E',
             id: 'b1',
             p: 'g1',
             r: true,
@@ -277,6 +283,7 @@ function drawGraph(event) {
             c: 'b',
         },
         {
+            n: 'F',
             id: 'b2',
             p: 'b1',
             r: true,
@@ -285,6 +292,7 @@ function drawGraph(event) {
             c: 'b'
         },
         {
+            n: 'G',
             id: 'b3',
             p: 'b2',
             r: true,
@@ -293,6 +301,7 @@ function drawGraph(event) {
             c: 'b'
         },
         {
+            n: 'H',
             id: 'b4',
             p: 'b3',
             r: false,
@@ -302,6 +311,7 @@ function drawGraph(event) {
             c: 'b'
         },
         {
+            n: 'I',
             id: 'o1',
             p: 'g1',
             x: centerX - 300,
@@ -309,6 +319,7 @@ function drawGraph(event) {
             c: 'o'
         },
         {
+            n: 'J',
             id: 'o2',
             p: 'o1',
             x: centerX - 100,
@@ -316,6 +327,7 @@ function drawGraph(event) {
             c: 'o'
         },
         {
+            n: 'K',
             id: 'o3',
             p: 'o2',
             x: centerX + 100,
@@ -475,6 +487,24 @@ function drawGraph(event) {
                             }
                         });
                 });
+            break;
+
+        case 4:
+            graph.selectAll('.name')
+                .data(nodes.filter(function(n) { return n.n; }))
+                .enter()
+                .append('text')
+                .attr('class', 'name')
+                .attr('dx', function(node, i) {
+                    return node.x - 11;
+                })
+                .attr('dy', function(node, i) {
+                    return node.y + 12;
+                })
+                .text(function(node, i) {
+                    return node.n;
+                });
+
             break;
     }
 
