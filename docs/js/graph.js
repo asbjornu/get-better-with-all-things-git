@@ -68,7 +68,7 @@ function Edge(path, nodes, index, node) {
     })[0];
 
     var currentNode = node || nodes[index];
-    var nextNode = nodes.filter(n => n.id === currentNode.p)[0];
+    var nextNode = nodes.filter(function(n) { return n.id === currentNode.p })[0];
 
     this.index = index;
 
