@@ -96,9 +96,13 @@ function Edge(nodes, index, node) {
         c: nextNode.c
     };
 
-    this.direction = (currentNode.r === true) || (this.end.x > leftMostNode.x && this.end.y < leftMostNode.y)
-                ? 'reverse'
-                : 'forward';
+    if (currentNode.r === false) {
+        this.direction = 'forward';
+    } else if (currentNode.r === true || (this.end.x > leftMostNode.x && this.end.y < leftMostNode.y)) {
+        this.direction = 'reverse';
+    } else {
+        this.direction = 'forward';
+    }
 
     this.line = function() {
         if (edge.direction === 'reverse') {
@@ -239,6 +243,14 @@ function drawGraph(event) {
             x: centerX + 500,
             y: centerY,
             c: 'g'
+        },
+        {
+            id: 'u4',
+            p: 'u3',
+            r: false,
+            x: centerX + 400,
+            y: centerY - 100,
+            c: 'b'
         }
     ];
 
@@ -411,6 +423,7 @@ function drawGraph(event) {
                 .attr('marker-end', 'url(#arrow)')
                 .attr('d', function(node, i) {
                     var edge = new Edge(nodes, i, node).withMargins();
+                    console.log(node, edge, this);
                     return edge.line();
                 }).on('end', function(node, i) {
                     graph.append('circle')
