@@ -219,7 +219,7 @@ function drawGraph(event) {
             p: 'g1',
             r: true,
             x: centerX - 300,
-            y: centerY - 100,
+            y: centerY - 200,
             c: 'b',
         },
         {
@@ -227,7 +227,7 @@ function drawGraph(event) {
             p: 'b1',
             r: true,
             x: centerX - 100,
-            y: centerY - 100,
+            y: centerY - 200,
             c: 'b'
         },
         {
@@ -235,20 +235,29 @@ function drawGraph(event) {
             p: 'b2',
             r: true,
             x: centerX + 100,
-            y: centerY - 100,
+            y: centerY - 200,
+            c: 'b'
+        },
+        {
+            id: 'b4',
+            p: 'b3',
+            r: false,
+            h: true,
+            x: centerX + 400,
+            y: centerY - 200,
             c: 'b'
         },
         {
             id: 'g2a',
             p: 'o3',
-            x: centerX + 200,
+            x: centerX + 300,
             y: centerY,
             c: 'g'
         },
         {
             id: 'g2b',
             p: 'b3',
-            x: centerX + 200,
+            x: centerX + 300,
             y: centerY,
             c: 'g'
         },
@@ -256,36 +265,36 @@ function drawGraph(event) {
             id: 'g2c',
             p: 'g1',
             h: true,
-            x: centerX + 200,
+            x: centerX + 300,
             y: centerY,
             c: 'g'
         },
         {
-            id: 'o3',
-            p: 'o2',
-            x: centerX + 100,
-            y: centerY + 100,
+            id: 'o1',
+            p: 'g1',
+            x: centerX - 300,
+            y: centerY + 200,
             c: 'o'
         },
         {
             id: 'o2',
             p: 'o1',
             x: centerX - 100,
-            y: centerY + 100,
+            y: centerY + 200,
             c: 'o'
         },
         {
-            id: 'o1',
-            p: 'g1',
-            x: centerX - 300,
-            y: centerY + 100,
+            id: 'o3',
+            p: 'o2',
+            x: centerX + 100,
+            y: centerY + 200,
             c: 'o'
         },
         {
             id: 'g1',
             p: 'g0',
             h: 'path',
-            x: centerX - 400,
+            x: centerX - 500,
             y: centerY,
             c: 'g'
         },
@@ -293,7 +302,7 @@ function drawGraph(event) {
             id: 'g0',
             r: true,
             h: true,
-            x: centerX - 550,
+            x: centerX - 700,
             y: centerY,
             c: 'g'
         },
@@ -301,24 +310,15 @@ function drawGraph(event) {
             id: 'g3',
             p: 'g2a',
             h: true,
-            x: centerX + 400,
+            x: centerX + 500,
             y: centerY,
             c: 'g'
-        },
-        {
-            id: 'b4',
-            p: 'b3',
-            r: false,
-            h: true,
-            x: centerX + 300,
-            y: centerY - 100,
-            c: 'b'
         },
         {
             id: 'g4',
             p: 'g3',
             h: true,
-            x: centerX + 600,
+            x: centerX + 700,
             y: centerY,
             c: 'g'
         }
