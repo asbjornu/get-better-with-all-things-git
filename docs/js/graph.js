@@ -323,6 +323,9 @@ function drawGraph(event) {
                     .data(nodes)
                     .enter()
                     .append('path')
+                    .attr('id', function(node, i) {
+                        return node.id;
+                    })
                     .attr('class', function(node, i) {
                         return (node.h === true) || (node.h === 'path')
                             ? 'edge hidden'
@@ -431,7 +434,11 @@ function drawGraph(event) {
             d3.selectAll('.hidden')
                 .transition()
                 .duration(1000)
-                .attr('marker-end', 'url(#arrow)')
+                .attr('marker-end', function(node, i) {
+                    return node.id === 'g0'
+                        ? null
+                        : 'url(#arrow)';
+                })
                 .attr('d', function(node, i) {
                     var edge = new Edge(this, nodes, i, node)
                         .withMargins()
