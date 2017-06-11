@@ -53,7 +53,7 @@ function createGradient(id, fromColor, toColor) {
     return gradient;
 }
 
-function Edge(nodes, index, node) {
+function Edge(path, nodes, index, node) {
     var edge = this;
     var leftMostNode = nodes.slice().sort(function(a, b) {
         if (a.x === b.x) {
@@ -68,19 +68,7 @@ function Edge(nodes, index, node) {
     })[0];
 
     var currentNode = node || nodes[index];
-    var nextNode;
-
-    if (currentNode.p) {
-        nextNode = nodes.filter(n => n.id === currentNode.p)[0];
-    } else if (index < nodes.length - 1) {
-        nextNode = nodes[index + 1];
-    } else {
-        nextNode = nodes[0];
-    }
-
-    var line = d3.line()
-        .x(function(d) { return d.x; })
-        .y(function(d) { return d.y; });
+    var nextNode = nodes.filter(n => n.id === currentNode.p)[0];
 
     this.index = index;
 
@@ -90,29 +78,39 @@ function Edge(nodes, index, node) {
         c: currentNode.c
     };
 
-    this.end = {
-        x: nextNode.x,
-        y: nextNode.y,
-        c: nextNode.c
-    };
+    if (nextNode) {
+        this.end = {
+            x: nextNode.x,
+            y: nextNode.y,
+            c: nextNode.c
+        };
+    }
 
     if (currentNode.r === false) {
         this.direction = 'forward';
-    } else if (currentNode.r === true || (this.end.x > leftMostNode.x && this.end.y < leftMostNode.y)) {
+    } else if (currentNode.r === true || (this.end && this.end.x > leftMostNode.x && this.end.y < leftMostNode.y)) {
         this.direction = 'reverse';
     } else {
         this.direction = 'forward';
     }
 
     this.line = function() {
-        if (edge.direction === 'reverse') {
-            return line([edge.end, edge.start]);
-        } else {
-            return line([edge.start, edge.end]);
+        var line = d3.line()
+            .x(function(d) { return d.x; })
+            .y(function(d) { return d.y; });
+
+        if (!edge.end) {
+            return line([edge.start, edge.start]);
         }
+
+        return line([edge.start, edge.end]);
     };
 
     this.withMargins = function() {
+        if (!edge.end) {
+            return edge;
+        }
+
         var diff = {
             x: edge.end.x - edge.start.x,
             y: edge.end.y - edge.start.y
@@ -161,17 +159,6 @@ function Edge(nodes, index, node) {
                 margins.start.y * -1.5;
         }
 
-        // If the edge is reversed, its margins
-        // needs to be inverted too.
-        if (edge.direction === 'reverse') {
-            var startX = margins.start.x;
-            var startY = margins.start.y;
-            margins.start.x = margins.end.x * -1;
-            margins.start.y = margins.end.y * -1;
-            margins.end.x = startX * -1;
-            margins.end.y = startY * -1;
-        }
-
         edge.start.x += margins.start.x;
         edge.start.y += margins.start.y;
         edge.end.x += margins.end.x;
@@ -181,7 +168,7 @@ function Edge(nodes, index, node) {
     };
 
     this.collapse = function(predicate, to) {
-        if (predicate !== true) {
+        if (!edge.end || predicate !== true) {
             return edge;
         }
 
@@ -221,80 +208,109 @@ function drawGraph(event) {
     var width = container.offsetWidth;
     var height = container.offsetHeight;
 
-    console.log(container, width, height);
-
     graph.attr('width', width).attr('height', height);
 
     var centerX = width / 2;
     var centerY = height / 2;
 
-    var hiddenNodes = [
-        {
-            id: 'c0',
-            p: 'c1',
-            r: true,
-            x: centerX - 450,
-            y: centerY,
-            c: 'g'
-        },
-        {
-            id: 'c3',
-            p: 'c2',
-            x: centerX + 500,
-            y: centerY,
-            c: 'g'
-        },
-        {
-            id: 'u4',
-            p: 'u3',
-            r: false,
-            x: centerX + 400,
-            y: centerY - 100,
-            c: 'b'
-        }
-    ];
-
     var nodes = [
         {
+            id: 'b1',
+            p: 'g1',
+            r: true,
             x: centerX - 200,
             y: centerY - 100,
             c: 'b',
         },
         {
+            id: 'b2',
+            p: 'b1',
+            r: true,
             x: centerX,
             y: centerY - 100,
             c: 'b'
         },
         {
-            id: 'u3',
+            id: 'b3',
+            p: 'b2',
+            r: true,
             x: centerX + 200,
             y: centerY - 100,
             c: 'b'
         },
         {
-            id: 'c2',
+            id: 'g2a',
+            p: 'o3',
             x: centerX + 300,
             y: centerY,
             c: 'g'
         },
         {
+            id: 'g2b',
+            p: 'b3',
+            x: centerX + 300,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'o3',
+            p: 'o2',
             x: centerX + 200,
             y: centerY + 100,
             c: 'o'
         },
         {
+            id: 'o2',
+            p: 'o1',
             x: centerX,
             y: centerY + 100,
             c: 'o'
         },
         {
+            id: 'o1',
+            p: 'g1',
             x: centerX - 200,
             y: centerY + 100,
             c: 'o'
         },
         {
-            id: 'c1',
+            id: 'g1',
+            p: 'g0',
+            h: 'path',
             x: centerX - 300,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'g0',
+            r: true,
+            h: true,
+            x: centerX - 450,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'g3',
+            p: 'g2a',
+            h: true,
+            x: centerX + 500,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'b4',
+            p: 'b3',
+            r: false,
+            h: true,
+            x: centerX + 400,
+            y: centerY - 100,
+            c: 'b'
+        },
+        {
+            id: 'g4',
+            p: 'g3',
+            h: true,
+            x: centerX + 700,
             y: centerY,
             c: 'g'
         }
@@ -303,30 +319,21 @@ function drawGraph(event) {
     switch (nav.step) {
         case -1:
             if (!nav.stepVisited) {
-                graph.selectAll('.hidden')
-                    .data(hiddenNodes)
-                    .enter()
-                    .append('path')
-                    .attr('id', function(node, i) { return node.id; })
-                    .attr('class', 'hidden')
-                    .attr('stroke', '#aaa')
-                    .attr('stroke-width', 10)
-                    .attr('fill', 'none')
-                    .attr('d', (node, i) => {
-                        var edge = new Edge(nodes, i, node).collapse(true, 'end');
-                        return edge.line();
-                    });
-
                 graph.selectAll('.edge')
                     .data(nodes)
                     .enter()
                     .append('path')
-                    .attr('class', 'edge')
+                    .attr('class', function(node, i) {
+                        return (node.h === true) || (node.h === 'path')
+                            ? 'edge hidden'
+                            : 'edge';
+                    })
                     .attr('stroke', '#aaa')
                     .attr('stroke-width', 10)
                     .attr('fill', 'none')
                     .attr('d', function(node, i) {
-                        var edge = new Edge(nodes, i);
+                        var edge = new Edge(this, nodes, i)
+                            .collapse((node.h === true) || (node.h === 'path'));
                         return edge.line();
                     });
             }
@@ -348,12 +355,16 @@ function drawGraph(event) {
                     .enter()
                     .append('circle')
                     .attr('class', 'node')
-                    .attr('cx', function(d) { return d.x; })
-                    .attr('cy', function(d) { return d.y; })
-                    .attr('r', 25)
-                    .attr('fill', function(d) { return 'url(#' + d.c + ')'; })
-                    .attr('stroke', function(d) {
-                        switch (d.c) {
+                    .attr('cx', function(node) { return node.x; })
+                    .attr('cy', function(node) { return node.y; })
+                    .attr('r', function(node, i) {
+                        return node.h === true
+                            ? 0
+                            : 25;
+                    })
+                    .attr('fill', function(node) { return 'url(#' + node.c + ')'; })
+                    .attr('stroke', function(node) {
+                        switch (node.c) {
                             case 'b':
                                 return '#2e75b6';
 
@@ -369,7 +380,7 @@ function drawGraph(event) {
                     .transition()
                     .duration(1000)
                     .attr('d', function(node, i) {
-                        var edge = new Edge(nodes, i);
+                        var edge = new Edge(this, nodes, i);
                         return edge.line();
                     });
             }
@@ -380,9 +391,8 @@ function drawGraph(event) {
                 .transition()
                 .duration(1000)
                 .attr('d', function(node, i) {
-                    var edge = new Edge(nodes, i)
-                        // Make the 2nd path vanish on fragment 1 and onward.
-                        .collapse(i === 2);
+                    var edge = new Edge(this, nodes, i)
+                        .collapse(node.id === 'g2b' || (node.h === true) || (node.h === 'path'));
 
                     return edge.line();
                 });
@@ -394,26 +404,27 @@ function drawGraph(event) {
                     .transition()
                     .duration(1000)
                     .attr('d', function(node, i) {
-                        var edge = new Edge(nodes, i).withMargins()
-                            // Make the 2nd path vanish on fragment 1 and onward.
-                            .collapse(i === 2);
+                        var edge = new Edge(this, nodes, i).withMargins()
+                            .collapse(node.id === 'g2b' || (node.h === true) || (node.h === 'path'));
 
                         return edge.line();
                     })
-                    .attr('marker-end', function(c, i) {
-                        return (i == 2) ? null : 'url(#arrow)';
+                    .attr('marker-end', function(node, i) {
+                        return (node.id === 'g2b' || (node.h === true) || (node.h === 'path'))
+                            ? null
+                            : 'url(#arrow)';
                     });
             } else {
-                graph.select('.origo')
+                graph.select('#g0')
                     .transition()
                     .duration(1000)
                     .attr('d', function(node, i) {
-                        var edge = new Edge(nodes, i, node).collapse(true, 'end');
+                        var edge = new Edge(this, nodes, i, node)
+                            .collapse(true, 'end');
                         return edge.line();
                     });
             }
 
-            graph.select('#n0').remove();
             break;
 
         case 3:
@@ -422,8 +433,10 @@ function drawGraph(event) {
                 .duration(1000)
                 .attr('marker-end', 'url(#arrow)')
                 .attr('d', function(node, i) {
-                    var edge = new Edge(nodes, i, node).withMargins();
-                    console.log(node, edge, this);
+                    var edge = new Edge(this, nodes, i, node)
+                        .withMargins()
+                        .collapse(node.id === 'g2b');
+
                     return edge.line();
                 }).on('end', function(node, i) {
                     graph.append('circle')
