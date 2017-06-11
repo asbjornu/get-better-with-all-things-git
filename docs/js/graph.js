@@ -562,7 +562,8 @@ function drawGraph(event) {
                 .data(references.filter(function(r) { return r.p; }))
                 .enter()
                 .append('path')
-                .attr('class', 'ref-edge')
+                .attr('class', 'ref-edge ref')
+                .attr('opacity', 1)
                 .attr('stroke', '#aaa')
                 .attr('stroke-width', 10)
                 .attr('fill', 'none')
@@ -572,11 +573,12 @@ function drawGraph(event) {
                     return edge.line();
                 });
 
-            graph.selectAll('.ref')
+            graph.selectAll('.ref-label')
                 .data(references)
                 .enter()
                 .append('rect')
-                .attr('class', 'ref')
+                .attr('class', 'ref-label ref')
+                .attr('opacity', 1)
                 .attr('rx', 6)
                 .attr('ry', 6)
                 .attr('width', function(ref) {
@@ -606,9 +608,10 @@ function drawGraph(event) {
                 .data(references)
                 .enter()
                 .append('text')
+                .attr('opacity', 1)
                 .attr('alignment-baseline', 'middle')
                 .attr('text-anchor', 'middle')
-                .attr('class', 'ref-name')
+                .attr('class', 'ref-name ref')
                 .attr('dx', function(ref) {
                     return ref.x;
                 })
@@ -618,6 +621,14 @@ function drawGraph(event) {
                 .text(function(ref) {
                     return ref.n;
                 });
+            break;
+
+        case 6:
+            d3.selectAll('.ref')
+                .transition()
+                .duration(1000)
+                .attr('opacity', 0.1);
+
             break;
     }
 
