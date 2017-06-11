@@ -219,7 +219,7 @@ function drawGraph(event) {
         visited.push(nav.step);
     }
 
-    if (nav.id != 'dag1') {
+    if (nav.id != 'dag') {
         return;
     }
 
