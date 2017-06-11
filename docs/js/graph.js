@@ -253,6 +253,14 @@ function drawGraph(event) {
             c: 'g'
         },
         {
+            id: 'g2c',
+            p: 'g1',
+            h: true,
+            x: centerX + 300,
+            y: centerY,
+            c: 'g'
+        },
+        {
             id: 'o3',
             p: 'o2',
             x: centerX + 200,
