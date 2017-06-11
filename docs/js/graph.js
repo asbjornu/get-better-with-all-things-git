@@ -224,6 +224,24 @@ function drawGraph(event) {
     var centerX = width / 2;
     var centerY = height / 2;
 
+    var hiddenNodes = [
+        {
+            id: 'c0',
+            p: 'c1',
+            r: true,
+            x: centerX - 450,
+            y: centerY,
+            c: 'g'
+        },
+        {
+            id: 'c3',
+            p: 'c2',
+            x: centerX + 500,
+            y: centerY,
+            c: 'g'
+        }
+    ];
+
     var nodes = [
         {
             x: centerX - 200,
@@ -236,11 +254,13 @@ function drawGraph(event) {
             c: 'b'
         },
         {
+            id: 'u3',
             x: centerX + 200,
             y: centerY - 100,
             c: 'b'
         },
         {
+            id: 'c2',
             x: centerX + 300,
             y: centerY,
             c: 'g'
@@ -261,7 +281,7 @@ function drawGraph(event) {
             c: 'o'
         },
         {
-            id: 'n1',
+            id: 'c1',
             x: centerX - 300,
             y: centerY,
             c: 'g'
@@ -270,27 +290,21 @@ function drawGraph(event) {
 
     switch (nav.step) {
         case -1:
-            var edges;
-
-            graph.append('path')
-                .datum({
-                    id: 'n0',
-                    p: 'n1',
-                    r: true,
-                    x: centerX - 450,
-                    y: centerY,
-                    c: 'g'
-                })
-                .attr('class', 'origo')
-                .attr('stroke', '#aaa')
-                .attr('stroke-width', 10)
-                .attr('fill', 'none')
-                .attr('d', function(c, i) {
-                    var edge = new Edge(nodes, i, c).collapse(true, 'end');
-                    return edge.line();
-                });
-
             if (!nav.stepVisited) {
+                graph.selectAll('.hidden')
+                    .data(hiddenNodes)
+                    .enter()
+                    .append('path')
+                    .attr('id', function(node, i) { return node.id; })
+                    .attr('class', 'hidden')
+                    .attr('stroke', '#aaa')
+                    .attr('stroke-width', 10)
+                    .attr('fill', 'none')
+                    .attr('d', (node, i) => {
+                        var edge = new Edge(nodes, i, node).collapse(true, 'end');
+                        return edge.line();
+                    });
+
                 graph.selectAll('.edge')
                     .data(nodes)
                     .enter()
@@ -299,7 +313,7 @@ function drawGraph(event) {
                     .attr('stroke', '#aaa')
                     .attr('stroke-width', 10)
                     .attr('fill', 'none')
-                    .attr('d', function(c, i) {
+                    .attr('d', function(node, i) {
                         var edge = new Edge(nodes, i);
                         return edge.line();
                     });
@@ -391,7 +405,7 @@ function drawGraph(event) {
             break;
 
         case 3:
-            d3.select('.origo')
+            d3.selectAll('.hidden')
                 .transition()
                 .duration(1000)
                 .attr('marker-end', 'url(#arrow)')
@@ -420,7 +434,6 @@ function drawGraph(event) {
                             }
                         });
                 });
-
             break;
     }
 
