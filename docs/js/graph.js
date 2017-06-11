@@ -32,6 +32,22 @@ Reveal.addEventListener('fragmenthidden', drawGraph);
 var visited = [];
 var previousStep = -1;
 
+function stroke(d) {
+    switch (d.c) {
+        case 'b':
+            return '#2e75b6';
+
+        case 'o':
+            return '#bf9000';
+
+        case 'g':
+            return '#548235';
+
+        case 'r':
+            return '#ed7d31';
+    }
+}
+
 function createGradient(id, fromColor, toColor) {
     var gradient = defs.append('svg:linearGradient')
         .attr('id', id)
@@ -387,18 +403,7 @@ function drawGraph(event) {
                             : 25;
                     })
                     .attr('fill', function(node) { return 'url(#' + node.c + ')'; })
-                    .attr('stroke', function(node) {
-                        switch (node.c) {
-                            case 'b':
-                                return '#2e75b6';
-
-                            case 'o':
-                                return '#bf9000';
-
-                            case 'g':
-                                return '#548235';
-                        }
-                    });
+                    .attr('stroke', stroke);
             } else {
                 graph.selectAll('.edge')
                     .transition()
@@ -475,18 +480,7 @@ function drawGraph(event) {
                         .attr('cy', function(d) { return d.y; })
                         .attr('r', 25)
                         .attr('fill', function(d) { return 'url(#' + d.c + ')'; })
-                        .attr('stroke', function(d) {
-                            switch (d.c) {
-                                case 'b':
-                                    return '#2e75b6';
-
-                                case 'o':
-                                    return '#bf9000';
-
-                                case 'g':
-                                    return '#548235';
-                            }
-                        });
+                        .attr('stroke', stroke);
                 });
             break;
 
@@ -559,7 +553,7 @@ function drawGraph(event) {
                 .attr('fill', function(ref) {
                     return 'url(#' + ref.c + ')';
                 })
-                .attr('stroke', '#ed7d31');
+                .attr('stroke', stroke);
 
             edges.transition().duration(1000).attr('d', function(ref, i) {
                 var edge = new Edge(this, nodes, i, ref).withMargins();
