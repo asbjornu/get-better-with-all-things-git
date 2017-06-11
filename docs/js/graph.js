@@ -6,6 +6,7 @@ var defs = graph.append('svg:defs');
 createGradient('b', '#e4f5fc', '#2ab0ed');
 createGradient('o', '#f6e6b4', '#ed9017');
 createGradient('g', '#e2f0d9', '#c5e0b4');
+createGradient('r', '#f8cbad', '#f4b183');
 
 var arrow = defs.append('svg:marker')
     .attr('id', 'arrow')
@@ -490,11 +491,11 @@ function drawGraph(event) {
             break;
 
         case 4:
-            graph.selectAll('.name')
+            graph.selectAll('.node-name')
                 .data(nodes.filter(function(n) { return n.n; }))
                 .enter()
                 .append('text')
-                .attr('class', 'name')
+                .attr('class', 'node-name')
                 .attr('dx', function(node, i) {
                     return node.x - 11;
                 })
@@ -505,6 +506,78 @@ function drawGraph(event) {
                     return node.n;
                 });
 
+            break;
+
+        case 5:
+            var references = [
+                {
+                    n: 'v1.0',
+                    p: 'g1',
+                    w: 150,
+                    h: 50,
+                    x: centerX - 500,
+                    y: centerY - 400,
+                    c: 'r'
+                }
+            ];
+
+            var edges = graph.selectAll('.ref-edge')
+                .data(references)
+                .enter()
+                .append('path')
+                .attr('class', 'ref-edge')
+                .attr('stroke', '#aaa')
+                .attr('stroke-width', 10)
+                .attr('fill', 'none')
+                .attr('marker-end', 'url(#arrow)')
+                .attr('d', function(ref, i) {
+                    var edge = new Edge(this, nodes, i, ref).collapse(true)
+                    return edge.line();
+                });
+
+            graph.selectAll('.ref')
+                .data(references)
+                .enter()
+                .append('rect')
+                .attr('class', 'ref')
+                .attr('rx', 6)
+                .attr('ry', 6)
+                .attr('width', function(ref) {
+                    return ref.w;
+                })
+                .attr('height', function(ref) {
+                    return ref.h;
+                })
+                .attr('x', function(ref) {
+                    return ref.x - (ref.w / 2);
+                })
+                .attr('y', function(ref) {
+                    return ref.y - (ref.h / 2);
+                })
+                .attr('fill', function(ref) {
+                    return 'url(#' + ref.c + ')';
+                })
+                .attr('stroke', '#ed7d31');
+
+            edges.transition().duration(1000).attr('d', function(ref, i) {
+                var edge = new Edge(this, nodes, i, ref).withMargins();
+                return edge.line();
+            })
+
+            graph.selectAll('.ref-name')
+                .data(references)
+                .enter()
+                .append('text')
+                .attr('class', 'ref-name')
+                .attr('dx', function(ref, i) {
+                    return ref.x - 30;
+                })
+                .attr('dy', function(ref, i) {
+                    return ref.y + 12;
+                })
+                .text(function(ref, i) {
+                    return ref.n;
+                });
             break;
     }
 
