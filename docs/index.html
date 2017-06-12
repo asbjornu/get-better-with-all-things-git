@@ -111,6 +111,49 @@
             </section>
 
             <section>
+                <h2>Commits</h2>
+                <ul>
+                    <li class="fragment">
+                        The change you want to record to the repository.
+                    </li>
+                    <li class="fragment">
+                        Have at least one parent commit.
+                    </li>
+                    <li class="fragment">
+                        <p>Have a cryptographically secure identifier</p>
+                    </li>
+                </ul>
+
+                <aside class="notes">
+                    <ol>
+                        <li>The delta from the previous (or parent) commit</li>
+                        <li>Merge commits has at least two parents, octopus merges can have more.</li>
+                        <li>The ID of a commit makes merges and comparisons in Git both extremely fast and somewhat stupid</li>
+                    </ol>
+                </aside>
+            </section>
+
+            <section style="width: auto; margin: 0 10%;">
+                <p style="font-family: monospace; margin-top: 1em; text-align: left;">
+                    <span style="color: #e3ceab">const char</span>*
+                    <span style="color: #efef8f">sha1</span><span style="white-space: pre">(content,
+                 author,
+                 date,
+                 message,
+                 parent_sha1);</span>
+                </p>
+
+                <p style="font-family: monospace; color: #7f9f7f; white-space: pre; text-align: left">
+// 7ecd1598a3e6bb7c3c0d7cbda24e7dc</p>
+
+                <aside class="notes">
+                    Because the hash of a commit includes the hash of its parents,
+                    the whole history of a repository can be verified by comparing
+                    a single commit hash.
+                </aside>
+            </section>
+
+            <section>
                 <h2>References</h2>
                 <ul>
                     <li class="fragment"><strong>Local branch</strong> reference</li>
