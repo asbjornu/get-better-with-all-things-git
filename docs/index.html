@@ -156,14 +156,19 @@
 
     <script src="bower_components/reveal.js/lib/js/head.min.js"></script>
     <script src="bower_components/reveal.js/js/reveal.js"></script>
-    <script src="bower_components/reveal.js/plugin/notes/notes.js"></script>
     <script src="bower_components/d3/d3.min.js"></script>
     <script src="js/graph.js"></script>
     <script>
         Reveal.initialize({
             width: 1920,
             height: 1080,
-            margin: 0.1
+            margin: 0.1,
+            dependencies: [
+                {
+                    src: './bower_components/reveal.js/plugin/notes/notes.js',
+                    async: true
+                }
+            ]
         });
         Reveal.addEventListener('slidechanged', drawGraph);
         Reveal.addEventListener('fragmentshown', drawGraph);
