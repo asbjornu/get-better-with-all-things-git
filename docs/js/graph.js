@@ -202,6 +202,10 @@ function drawGraph(event) {
         step: Reveal.getIndices().f,
     };
 
+    if (nav.id != 'dag') {
+        return;
+    }
+
     nav.forward = nav.step >= previousStep;
     nav.backward = nav.step < previousStep;
     nav.stepVisited = visited.indexOf(nav.step) !== -1;
@@ -210,9 +214,6 @@ function drawGraph(event) {
         visited.push(nav.step);
     }
 
-    if (nav.id != 'dag') {
-        return;
-    }
 
     Reveal.configure({ center: false, margins: 0 });
 
