@@ -21,15 +21,6 @@ arrow.append('path')
     .attr('d', 'M0,0 V3 L1.5,1.5 Z')
     .attr('fill', '#aaa');
 
-Reveal.initialize({
-    width: 1920,
-	height: 1080,
-	margin: 0.1,
-});
-Reveal.addEventListener('slidechanged', drawGraph);
-Reveal.addEventListener('fragmentshown', drawGraph);
-Reveal.addEventListener('fragmenthidden', drawGraph);
-
 var visited = [];
 var previousStep = -1;
 
