@@ -1,5 +1,23 @@
 .reveal {
-  font-size: 75px;
+    font-size: 75px;
+}
+
+.reveal section img {
+    background: none;
+    border: none;
+    box-shadow: none;
+    margin: 0;
+}
+
+.pancakes .slides {
+    top: 40% !important;
+}
+
+.pancakes section.present img.pancake {
+    position: absolute;
+    max-height: none !important;
+    left: 30%;
+    transition: left 1s ease-in-out;
 }
 
 .graph * {

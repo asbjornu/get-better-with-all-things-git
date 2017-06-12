@@ -195,6 +195,25 @@
                     </ol>
                 </aside>
             </section>
+
+            <section data-state="pancakes" data-transition="zoom">
+                <img src="./images/stack-of-pancakes.png" alt="Stack of pancakes" class="pancake">
+                <img src="./images/stack-of-pancakes.png" alt="Stack of pancakes" class="pancake">
+                <span class="fragment"></span>
+                <span class="fragment" data-autoslide="1000"></span>
+
+                <aside class="notes">
+                    As we will see later, since Git maintains a cryptographically
+                    verifiable graph of its commits, it makes branching and
+                    merging much simpler.
+                </aside>
+            </section>
+
+            <section data-background="./images/pancake-fail.jpg">
+                <aside class="notes">
+                    <a href="https://www.flickr.com/photos/72469933@N00/4043218458/">Pancake fail</a>
+                </aside>
+            </section>
         </div>
     </div>
 
@@ -217,6 +236,28 @@
         Reveal.addEventListener('slidechanged', drawGraph);
         Reveal.addEventListener('fragmentshown', drawGraph);
         Reveal.addEventListener('fragmenthidden', drawGraph);
+        Reveal.addEventListener('pancakes', function() {
+            Reveal.addEventListener('fragmentshown', function() {
+                var step = Reveal.getIndices().f;
+                var pancakes = document.querySelectorAll('.pancakes section.present img.pancake');
+                if (!pancakes || pancakes.length != 2) {
+                    Reveal.removeEventListener('fragmentshown', this);
+                    return;
+                }
+
+                switch (step) {
+                    case 0:
+                        pancakes[0].style.left = '1%';
+                        pancakes[1].style.left = '55%';
+                        break;
+
+                    case 1:
+                        pancakes[0].style.left = '30%';
+                        pancakes[1].style.left = '30%';
+                        break;
+                }
+            });
+        });
     </script>
 </body>
 </html>
