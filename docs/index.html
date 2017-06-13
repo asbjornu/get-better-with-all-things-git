@@ -297,42 +297,176 @@
                 </aside>
             </section>
 
-            <section>
-                <p style="text-align: justify; font-family: monospace; font-size: 40px">
-                    add clone fetch log p4 repack submodule--helper
-                    add--interactive column fetch-pack ls-files pack-objects replace svn
-                    am commit filter-branch ls-remote pack-redundant request-pull symbolic-ref
-                    annotate commit-tree fmt-merge-msg ls-tree pack-refs rerere tag
-                    apply config for-each-ref mailinfo patch-id reset unpack-file
-                    archimport count-objects format-patch mailsplit prune rev-list unpack-objects
-                    archive credential fsck merge prune-packed rev-parse update-index
-                    bisect credential-cache fsck-objects merge-base pull revert update-ref
-                    bisect--helper credential-cache--daemon gc merge-file push rm update-server-info
-                    blame credential-store get-tar-commit-id merge-index quiltimport send-email upload-archive
-                    branch cvsexportcommit grep merge-octopus read-tree send-pack upload-pack
-                    bundle cvsimport gui merge-one-file rebase sh-i18n--envsubst var
-                    cat-file cvsserver gui--askpass merge-ours rebase--helper shell verify-commit
-                    check-attr daemon hash-object merge-recursive receive-pack shortlog verify-pack
-                    check-ignore describe help merge-resolve reflog show verify-tag
-                    check-mailmap diff http-backend merge-subtree remote show-branch web--browse
-                    check-ref-format diff-files http-fetch merge-tree remote-ext show-index whatchanged
-                    checkout diff-index http-push mergetool remote-fd show-ref worktree
-                    checkout-index diff-tree index-pack mktag remote-ftp stage write-tree
-                    cherry difftool init mktree remote-ftps stash
-                    cherry-pick difftool--helper init-db mv remote-http status
-                    citool fast-export instaweb name-rev remote-https stripspace
-                    clean fast-import interpret-trailers notes remote-testsvn submodule
+            <section data-state="commands">
+                <p class="git-commands">
+                    <span class="porcelain common">add</span>
+                    <span class="porcelain">am</span>
+                    <span class="porcelain">annotate</span>
+                    <span class="plumbing">apply</span>
+                    <span class="porcelain">archimport</span>
+                    <span class="porcelain">archive</span>
+                    <span class="porcelain">bisect</span>
+                    <span class="porcelain">blame</span>
+                    <span class="porcelain common">branch</span>
+                    <span class="porcelain">bundle</span>
+                    <span class="plumbing">cat-file</span>
+                    <span class="plumbing">check-attr</span>
+                    <span class="plumbing">check-ignore</span>
+                    <span class="plumbing">check-mailmap</span>
+                    <span class="plumbing">check-ref-format</span>
+                    <span class="porcelain common">checkout</span>
+                    <span class="plumbing">checkout-index</span>
+                    <span class="porcelain">cherry</span>
+                    <span class="porcelain">cherry-pick</span>
+                    <span class="porcelain">citool</span>
+                    <span class="porcelain">clean</span>
+                    <span class="porcelain common">clone</span>
+                    <span class="plumbing">column</span>
+                    <span class="porcelain common">commit</span>
+                    <span class="plumbing">commit-tree</span>
+                    <span class="porcelain">config</span>
+                    <span class="porcelain">count-objects</span>
+                    <span class="plumbing">credential</span>
+                    <span class="plumbing">credential-cache</span>
+                    <span class="plumbing">credential-store</span>
+                    <span class="porcelain">cvsexportcommit</span>
+                    <span class="porcelain">cvsimport</span>
+                    <span class="porcelain">cvsserver</span>
+                    <span class="plumbing">daemon</span>
+                    <span class="porcelain">describe</span>
+                    <span class="porcelain common">diff</span>
+                    <span class="plumbing">diff-files</span>
+                    <span class="plumbing">diff-index</span>
+                    <span class="plumbing">diff-tree</span>
+                    <span class="porcelain">difftool</span>
+                    <span class="porcelain">fast-export</span>
+                    <span class="porcelain">fast-import</span>
+                    <span class="porcelain common">fetch</span>
+                    <span class="plumbing">fetch-pack</span>
+                    <span class="porcelain">filter-branch</span>
+                    <span class="plumbing">fmt-merge-msg</span>
+                    <span class="plumbing">for-each-ref</span>
+                    <span class="porcelain">format-patch</span>
+                    <span class="porcelain">fsck</span>
+                    <span class="porcelain">gc</span>
+                    <span class="porcelain">get-tar-commit-id</span>
+                    <span class="porcelain">gitk</span>
+                    <span class="porcelain">gitweb</span>
+                    <span class="porcelain">grep</span>
+                    <span class="porcelain">gui</span>
+                    <span class="plumbing">hash-object</span>
+                    <span class="porcelain">help</span>
+                    <span class="plumbing">http-backend</span>
+                    <span class="plumbing">http-fetch</span>
+                    <span class="plumbing">http-push</span>
+                    <span class="porcelain">imap-send</span>
+                    <span class="plumbing">index-pack</span>
+                    <span class="porcelain common">init</span>
+                    <span class="porcelain">instaweb</span>
+                    <span class="plumbing">interpret-trailers</span>
+                    <span class="porcelain common">log</span>
+                    <span class="plumbing">ls-files</span>
+                    <span class="plumbing">ls-remote</span>
+                    <span class="plumbing">ls-tree</span>
+                    <span class="plumbing">mailinfo</span>
+                    <span class="plumbing">mailsplit</span>
+                    <span class="porcelain common">merge</span>
+                    <span class="plumbing">merge-base</span>
+                    <span class="plumbing">merge-file</span>
+                    <span class="plumbing">merge-index</span>
+                    <span class="plumbing">merge-one-file</span>
+                    <span class="porcelain">merge-tree</span>
+                    <span class="porcelain">mergetool</span>
+                    <span class="plumbing">mktag</span>
+                    <span class="plumbing">mktree</span>
+                    <span class="porcelain">mv</span>
+                    <span class="plumbing">name-rev</span>
+                    <span class="porcelain">notes</span>
+                    <span class="porcelain">p4</span>
+                    <span class="plumbing">pack-objects</span>
+                    <span class="plumbing">pack-redundant</span>
+                    <span class="porcelain">pack-refs</span>
+                    <span class="plumbing">parse-remote</span>
+                    <span class="plumbing">patch-id</span>
+                    <span class="porcelain">prune</span>
+                    <span class="plumbing">prune-packed</span>
+                    <span class="porcelain common">pull</span>
+                    <span class="porcelain common">push</span>
+                    <span class="porcelain">quiltimport</span>
+                    <span class="plumbing">read-tree</span>
+                    <span class="porcelain common">rebase</span>
+                    <span class="plumbing">receive-pack</span>
+                    <span class="porcelain">reflog</span>
+                    <span class="porcelain">relink</span>
+                    <span class="porcelain common">remote</span>
+                    <span class="porcelain">repack</span>
+                    <span class="porcelain">replace</span>
+                    <span class="porcelain">request-pull</span>
+                    <span class="porcelain">rerere</span>
+                    <span class="porcelain common">reset</span>
+                    <span class="plumbing">rev-list</span>
+                    <span class="porcelain">rev-parse</span>
+                    <span class="porcelain">revert</span>
+                    <span class="porcelain">rm</span>
+                    <span class="porcelain">send-email</span>
+                    <span class="plumbing">send-pack</span>
+                    <span class="plumbing">sh-i18n</span>
+                    <span class="plumbing">sh-setup</span>
+                    <span class="plumbing">shell</span>
+                    <span class="porcelain">shortlog</span>
+                    <span class="porcelain common">show</span>
+                    <span class="porcelain">show-branch</span>
+                    <span class="plumbing">show-index</span>
+                    <span class="plumbing">show-ref</span>
+                    <span class="porcelain">stash</span>
+                    <span class="porcelain common">status</span>
+                    <span class="plumbing">stripspace</span>
+                    <span class="porcelain">submodule</span>
+                    <span class="porcelain">svn</span>
+                    <span class="plumbing">symbolic-ref</span>
+                    <span class="porcelain common">tag</span>
+                    <span class="plumbing">unpack-file</span>
+                    <span class="plumbing">unpack-objects</span>
+                    <span class="plumbing">update-index</span>
+                    <span class="plumbing">update-ref</span>
+                    <span class="plumbing">update-server-info</span>
+                    <span class="plumbing">upload-archive</span>
+                    <span class="plumbing">upload-pack</span>
+                    <span class="plumbing">var</span>
+                    <span class="porcelain">verify-commit</span>
+                    <span class="plumbing">verify-pack</span>
+                    <span class="porcelain">verify-tag</span>
+                    <span class="porcelain">whatchanged</span>
+                    <span class="porcelain">worktree</span>
+                    <span class="plumbing">write-tree</span>
                 </p>
+
+                <span class="fragment"></span>
+                <span class="fragment"></span>
+                <span class="fragment"></span>
 
                 <aside class="notes">
                     <ol>
                         <li>
-                            These are the 157 commands Git supports. Add arguments to
-                            the mix and you have an infinate amount of combinations.
+                            These are the 150 or so commands Git supports. Add
+                            arguments to the mix and you have an infinate amount
+                            of combinations.
                         </li>
                         <li>
-                            Most daily use of Git only involves 6 or so commands,
-                            though.
+                            Commands can be split in two groups:
+                            <ol>
+                                <li>Porcelain commands</li>
+                                <li>And plumbing commands</li>
+                            </ol>
+
+                            The difference between the two are that porcelain
+                            commands are usually higher level, are often composed
+                            of several plumbing commands and have a more stable
+                            interface.
+                        </li>
+                        <li>
+                            Most daily use of Git only involves less than 20
+                            different commands, though.
                         </li>
                     </ol>
                 </aside>
@@ -402,6 +536,45 @@
                     case 1:
                         pancakes[0].style.left = '30%';
                         pancakes[1].style.left = '30%';
+                        break;
+                }
+            });
+        });
+        Reveal.addEventListener('commands', function() {
+            Reveal.addEventListener('fragmentshown', function() {
+                var step = Reveal.getIndices().f;
+                var commands = document.querySelectorAll('.commands section.present .git-commands span');
+                if (!commands || commands.length == 0) {
+                    Reveal.removeEventListener('commands', this);
+                    return;
+                }
+
+                switch (step) {
+                    case 0:
+                        for (var command of commands) {
+                            var className = command.getAttribute('class');
+                            command.style = className.indexOf('porcelain') !== -1
+                                ? 'opacity: 1'
+                                : 'opacity: 0.2';
+                        }
+                        break;
+
+                    case 1:
+                        for (var command of commands) {
+                            var className = command.getAttribute('class');
+                            command.style = className.indexOf('plumbing') !== -1
+                                ? 'opacity: 1'
+                                : 'opacity: 0.2';
+                        }
+                        break;
+
+                    case 2:
+                        for (var command of commands) {
+                            var className = command.getAttribute('class');
+                            command.style = className.indexOf('common') !== -1
+                                ? 'opacity: 1'
+                                : 'opacity: 0.2';
+                        }
                         break;
                 }
             });
