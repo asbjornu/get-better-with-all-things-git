@@ -599,20 +599,17 @@
             <section data-transition="fade">
                 <h2>Configure</h2>
                 <p>Who are you, really?</p>
-                <ol>
-                    <li style="font-family: monospace" class="fragment">
-                        git config --global user.name
-                    </li>
-                    <li style="font-family: monospace" class="fragment">
-                        git config --global user.email
-                    </li>
-                    <li style="font-family: monospace" class="fragment">
-                        git config --global user.name "John Doe"
-                    </li>
-                    <li style="font-family: monospace" class="fragment">
-                        git config --global user.email johndoe@example.com
-                    </li>
-                </ol>
+                <pre class="shell"><code style="max-height: none"># Is a user name configured?
+git config --global user.name
+
+# If not, configure a user name
+git config --global user.name "John Doe"
+
+# Is an e-mail address configured?
+git config --global user.email
+
+# If not, configure an e-mail address
+git config --global user.email johndoe@example.com</code></pre>
 
                 <aside class="notes">
                     <ol>
