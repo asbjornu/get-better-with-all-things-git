@@ -727,6 +727,81 @@ cat ~/.ssh/id_rsa.pub
                     </ul>
                 </aside>
             </section>
+
+            <section data-background="./images/dirty-pig.jpg">
+                <h2 style="text-align: left; margin-top: 45%">Let's get dirty</h2>
+
+                <aside class="notes">
+                    <ol>
+                        <li><a href="http://www.bbc.com/earth/story/20150924-the-truth-about-pigs">Dirty Pig</a></li>
+                        <li>
+                            Let's create our first GitHub repository.
+                            <ol>
+                                <li>Create repository on GitHub</li>
+                                <li>Explain README, gitignore and license</li>
+                                <li>
+                                    Click clone, choose SSH/HTTPS depending on
+                                    whether SSH is set up correctly.
+                                </li>
+                                <li>git clone git@github.com:asbjornu/test.git</li>
+                                <li>Cloning from GitHub sets up the origin</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Let's init on the command line instead.
+                            <ol>
+                                <li>
+                                    <pre><code>mkdir test2
+cd test2
+git init
+echo '# Test 2'>readme.md
+git status
+git add readme.md
+git status
+git commit -m 'Initial commit'
+</code></pre>
+                                </li>
+                                <li>Create a new repository on GitHub</li>
+                                <li>Explain how we can't add anything to it</li>
+                                    <pre><code>git remote add origin git@github.com:asbjornu/test2.git
+git push --set-upstream origin master</code></pre>
+                                </li>
+                                <li>Show the result on GitHub</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Let's fork!
+                            <ol>
+                                <li>
+                                    Find a repository with
+                                    <a href="https://gitrandom.com/">Git Random</a>.
+                                </li>
+                                <li>Fork it</li>
+                                <li>
+                                    <pre><code>git clone $repo
+cd $repo
+</code></pre>
+                                </li>
+                                <li>Delete the fork</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Let's do a pull request
+                            <pre><code>git clone
+git push --set-upstream origin master</code></pre>
+
+                            <ol>
+                                <li>
+                                    Fork the
+                                    <a href="https://github.com/payex/ndcoslo2017">
+                                        NDC Oslo 2017 training repository
+                                    </a>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </aside>
+            </section>
         </div>
     </div>
 
