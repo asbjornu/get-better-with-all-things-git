@@ -551,84 +551,8 @@
     <script src="bower_components/reveal.js/js/reveal.js"></script>
     <script src="bower_components/d3/d3.min.js"></script>
     <script src="js/graph.js"></script>
-    <script>
-        Reveal.initialize({
-            width: 1920,
-            height: 1080,
-            margin: 0.1,
-            controls: false,
-            center: false,
-            dependencies: [
-                {
-                    src: './bower_components/reveal.js/plugin/notes/notes.js',
-                    async: true
-                }
-            ]
-        });
-        Reveal.addEventListener('slidechanged', drawGraph);
-        Reveal.addEventListener('fragmentshown', drawGraph);
-        Reveal.addEventListener('fragmenthidden', drawGraph);
-        Reveal.addEventListener('pancakes', function() {
-            Reveal.addEventListener('fragmentshown', function() {
-                var step = Reveal.getIndices().f;
-                var pancakes = document.querySelectorAll('.pancakes section.present img.pancake');
-                if (!pancakes || pancakes.length != 2) {
-                    Reveal.removeEventListener('fragmentshown', this);
-                    return;
-                }
-
-                switch (step) {
-                    case 0:
-                        pancakes[0].style.left = '1%';
-                        pancakes[1].style.left = '55%';
-                        break;
-
-                    case 1:
-                        pancakes[0].style.left = '30%';
-                        pancakes[1].style.left = '30%';
-                        break;
-                }
-            });
-        });
-        Reveal.addEventListener('commands', function() {
-            Reveal.addEventListener('fragmentshown', function() {
-                var step = Reveal.getIndices().f;
-                var commands = document.querySelectorAll('.commands section.present .git-commands span');
-                if (!commands || commands.length == 0) {
-                    Reveal.removeEventListener('commands', this);
-                    return;
-                }
-
-                switch (step) {
-                    case 0:
-                        for (var command of commands) {
-                            var className = command.getAttribute('class');
-                            command.style = className.indexOf('porcelain') !== -1
-                                ? 'opacity: 1'
-                                : 'opacity: 0.2';
-                        }
-                        break;
-
-                    case 1:
-                        for (var command of commands) {
-                            var className = command.getAttribute('class');
-                            command.style = className.indexOf('plumbing') !== -1
-                                ? 'opacity: 1'
-                                : 'opacity: 0.2';
-                        }
-                        break;
-
-                    case 2:
-                        for (var command of commands) {
-                            var className = command.getAttribute('class');
-                            command.style = className.indexOf('common') !== -1
-                                ? 'opacity: 1'
-                                : 'opacity: 0.2';
-                        }
-                        break;
-                }
-            });
-        });
-    </script>
+    <script src="js/pancakes.js"></script>
+    <script src="js/commands.js"></script>
+    <script src="js/init.js"></script>
 </body>
 </html>
