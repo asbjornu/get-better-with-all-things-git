@@ -682,6 +682,51 @@ git config --global user.email asbjorn.ulsberg@payex.com</code></pre>
                     </a>
                 </aside>
             </section>
+
+            <section data-transition="fade">
+                <h2>Configure</h2>
+                <p>SSH provides max efficiency, security and flexibility</p>
+
+                <pre class="shell"><code style="max-height: none"># Lists the files in your .ssh directory, if they exist:
+ls -al ~/.ssh
+
+# If not, generate a keypair
+ssh-keygen -t rsa -b 4096 -C "asbjorn.ulsberg@payex.com"
+
+# Complete the interactive key generation wizard.
+# Then add the key to the SSH agent.
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+
+# Copy the contents of the id_rsa.pub file:
+cat ~/.ssh/id_rsa.pub
+</code></pre>
+
+                <a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/#platform-linux">
+                    Lastly, add the public key to your GitHub account
+                </a>
+                <aside class="notes">
+                    <ul>
+                        <li>
+                            Set up a public/private key pair with SSH so you can
+                            use the SSH protocol instead of HTTPS.
+                        </li>
+                        <li>
+                            If you use 2FA, SSH makes life easier.
+                        </li>
+                        <li>
+                            SSH is not required, but recommended, since it makes
+                            using Git simpler with less credential entry.
+                        </li>
+                        <li>
+                            <a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">
+                                To have the SSH agent autostart and run in the
+                                background, please GitHub documentation.
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+            </section>
         </div>
     </div>
 
