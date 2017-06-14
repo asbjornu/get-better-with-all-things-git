@@ -5,6 +5,7 @@
     <title>Get Better With All Things Git</title>
     <link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
     <link rel="stylesheet" href="bower_components/reveal.js/css/theme/black.css">
+    <link rel="stylesheet" href="bower_components/reveal.js/lib/css/zenburn.css">
     <link rel="stylesheet" href="css/custom.css">
     <link rel="shortcut icon" type="image/png" href="images/share-icon.png">
 </head>
@@ -657,6 +658,32 @@
                  <aside class="notes">
                      Since vim is the default editor, this avoids problems like these.
                  </aside>
+            </section>
+
+            <section data-transition="fade">
+                <h2>Configure</h2>
+                <p>Change identity depending on where you are</p>
+
+                <pre class="ini"><code style="max-height: none">
+[user]
+   name = Asbjørn Ulsberg
+   email = asbjorn.ulsberg@payex.com
+
+[includeIf "gitdir:~/projects/personal/"]
+   path = ~/.gitconfig.oss
+
+# inside .gitconfig.oss:
+
+[user]
+   email = asbjorn@ulsberg.com
+                </code></pre>
+
+                <aside class="notes">
+                    <a href="http://www.edwardthomson.com/blog/git_conditional_includes.html">
+                        With Git 2.13, conditional includes allows you to have
+                        different users depending on which folder you're in.
+                    </a>
+                </aside>
             </section>
         </div>
     </div>
