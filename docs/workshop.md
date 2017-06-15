@@ -33,7 +33,7 @@ git commit -am 'Added conflict'
 git merge feature/blurp
 ```
 
-Resolve merge conflict in SmartGit
+- Resolve merge conflict in SmartGit.
 
 ```shell
 git diff --cached
@@ -43,7 +43,7 @@ git show # show the last commit
 gitversion # 1.0.0
 ```
 
-Explain how this process is called GitHubFlow, only using feature branches.
+- Explain how this process is called GitHubFlow, only using feature branches.
 
 ```shell
 git checkout -b develop
@@ -64,7 +64,7 @@ git add readme.md
 git commit --amend -m 'More development' # also fix the commit message typo
 ```
 
-Show the SmartGit "Recyclable Commits"
+- Show the SmartGit "Recyclable Commits".
 
 ```shell
 git reflog
@@ -104,14 +104,14 @@ git remote add origin git@github.com:asbjornu/test.git
 git push --set-upstream origin master
 ```
 
-Show the result on GitHub.
+- Show the result on GitHub.
 
 ```shell
 git checkout develop
 git push
 ```
 
-Enable branch protection, including for administrators.
+- Enable branch protection, including for administrators.
 
 ```shell
 echo 'Illegal'>>readme.md
@@ -125,7 +125,7 @@ git checkout -b feature/derp
 gitversion # 1.1.0-derp.1
 ```
 
-[We need a file of a certain size for Git rename detection to work][1].
+- [We need a file of a certain size for Git rename detection to work][1].
 
 ```shell
 printf "Lorem ipsum dolor sit amet, velit urbanitas mea an,\nhas in dicam albucius salutatus. Has eu iuvaret verterem,\nipsum voluptua reformidans sea no.">>blurp.md
@@ -135,7 +135,7 @@ git commit -am 'Added Lorem Ipsum'
 printf "# Blurp\nLorem ipsum est mutat scripserit cu, velit urbanitas mea an,\neu epicurei atomorum his, est mutat scripserit cu\nhas in prompta persequeris ut. Has eu elaboraret verterem,\nipsum voluptua reformidans sea no.\nCu salutatus definitionem sea, prompta persequeris ut his.">blurp.md
 ```
 
-Show how you can add inner-line, hunk and selection staging in SmartGit.
+- Show how you can add inner-line, hunk and selection staging in SmartGit.
 
 ```shell
 git commit -m 'Rewrote Lorem Ipsum'
@@ -149,7 +149,7 @@ git add .
 git status # Since more than 50% of the file now moved, Git no longer detects the rename.
 ```
 
-Stage the new file with old content in SmartGit so Git detects the rename.
+- Stage the new file with old content in SmartGit so Git detects the rename.
 
 ```shell
 git commit -m 'Renamed blurp to derp'
@@ -168,6 +168,7 @@ gitversion # 1.1.0
 ## Clone A New GitHub Repository
 
 Let's create a GitHub repository first, then clone it.
+
 - Create repository on GitHub
 - Explain README, gitignore and license
 - Click clone, choose SSH/HTTPS depending on whether SSH is set up correctly.
@@ -176,7 +177,7 @@ Let's create a GitHub repository first, then clone it.
 git clone git@github.com:asbjornu/test2.git
 ```
 
-Cloning from GitHub sets up the origin.
+- Cloning from GitHub sets up the origin.
 
 ## Fork A Repository
 
@@ -190,7 +191,7 @@ git clone $repo
 cd $repo
 ```
 
-Delete the fork.
+- Delete the fork.
 
 ## Pull Request Time!
 
