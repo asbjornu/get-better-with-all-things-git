@@ -755,10 +755,52 @@ cat ~/.ssh/id_rsa.pub
 cd test2
 git init
 echo '# Test 2'>readme.md
-git status
+git status # Open SmartGit too
 git add readme.md
-git status
+git status # Open SmartGit too
 git commit -m 'Initial commit'
+echo 'This is the repository of Test 2'>>readme.md
+git status # Open SmartGit too
+git commit -am 'Added description to readme'
+git checkout -b feature/blurp
+ls -la .git/refs/heads/
+ls -la .git/refs/heads/feature/
+cat .git/refs/heads/feature/blurp
+echo '# Blurp'>blurp.md
+echo '[Here is the blurp](blurp.md)'>>readme.md
+git status # Open SmartGit too
+git add .
+git status # Open SmartGit too
+git show readme.md # show the staged content
+git commit -m 'Added the blurp'
+git checkout master
+gitversion # 0.0.1
+echo 'Conflict!'>>readme.md
+git commit -am 'Added conflict'
+# resolve merge conflict in SmartGit
+git diff --cached
+git commit --no-edit
+git tag 1.0
+git show # show the last commit
+gitversion # 1.0.0
+echo "I'm on devlop now">>readme.md
+git add .
+nano readme # fix the typo
+git status # Open SmartGit too # the file is both staged and modified.
+git add .
+git status # Open SmartGit too
+git commit -m 'Develop!'
+gitversion # 1.1.0-unstable.1
+echo 'More devlopment'>>readme.md
+git show :readme.md # show how readme.md looks like in the staging area/index
+git commit -am 'More devlopment'
+nano readme.md # fix the typo
+git add readme.md
+git commit --amend -m 'More development' # also fix the commit message typo
+# Show the SmartGit "Recyclable Commits"
+git reflog # See, everything is safe. Commits without child commits or references will be deleted when git does GC.
+# git gc will wait until 'gc.reflogexpire' (default 90 days) before a commit is
+# no longer reachable from the reflog and thus will be removed from history.
 </code></pre>
                                 </li>
                                 <li>Create a new repository on GitHub</li>
