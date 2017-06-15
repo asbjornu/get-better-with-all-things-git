@@ -735,20 +735,7 @@ cat ~/.ssh/id_rsa.pub
                     <ol>
                         <li><a href="http://www.bbc.com/earth/story/20150924-the-truth-about-pigs">Dirty Pig</a></li>
                         <li>
-                            Let's create our first GitHub repository.
-                            <ol>
-                                <li>Create repository on GitHub</li>
-                                <li>Explain README, gitignore and license</li>
-                                <li>
-                                    Click clone, choose SSH/HTTPS depending on
-                                    whether SSH is set up correctly.
-                                </li>
-                                <li>git clone git@github.com:asbjornu/test.git</li>
-                                <li>Cloning from GitHub sets up the origin</li>
-                            </ol>
-                        </li>
-                        <li>
-                            Let's init on the command line instead.
+                            Let's init on the command line first.
                             <ol>
                                 <li>
                                     <pre><code>mkdir test2
@@ -804,11 +791,27 @@ git reflog # See, everything is safe. Commits without child commits or reference
 </code></pre>
                                 </li>
                                 <li>Create a new repository on GitHub</li>
-                                <li>Explain how we can't add anything to it</li>
+                                <li>
+                                    Explain how we can't add anything to it
+                                    since we're going to push.
+                                </li>
                                     <pre><code>git remote add origin git@github.com:asbjornu/test2.git
 git push --set-upstream origin master</code></pre>
                                 </li>
                                 <li>Show the result on GitHub</li>
+                            </ol>
+                        </li>
+                        <li>
+                            Let's create our first GitHub repository.
+                            <ol>
+                                <li>Create repository on GitHub</li>
+                                <li>Explain README, gitignore and license</li>
+                                <li>
+                                    Click clone, choose SSH/HTTPS depending on
+                                    whether SSH is set up correctly.
+                                </li>
+                                <li>git clone git@github.com:asbjornu/test.git</li>
+                                <li>Cloning from GitHub sets up the origin</li>
                             </ol>
                         </li>
                         <li>
