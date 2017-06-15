@@ -788,6 +788,21 @@ git commit --amend -m 'More development' # also fix the commit message typo
 git reflog # See, everything is safe. Commits without child commits or references will be deleted when git does GC.
 # git gc will wait until 'gc.reflogexpire' (default 90 days) before a commit is
 # no longer reachable from the reflog and thus will be removed from history.
+git checkout master
+git merge develop # show that it does a ff
+cat .git/refs/heads/master
+git show-ref master
+git show-ref develop
+git reset HEAD~1
+git diff
+git reset --hard HEAD~1
+# explain difference between --mixed (default), --soft and --hard:
+# --soft: what was commited is put back into the index.
+# --mixed: changes are in the working tree, but not the index.
+# --hard: changes are wiped
+git merge --no-ff develop
+git show-ref master
+git show-ref develop
 </code></pre>
                                 </li>
                                 <li>Create a new repository on GitHub</li>
