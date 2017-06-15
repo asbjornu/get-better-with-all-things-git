@@ -7,28 +7,29 @@ Let's init on the command line first.
 mkdir test
 cd test
 git init
-echo '# Test 2'>readme.md
+printf '# Test'>readme.md
 git status # Open SmartGit too
 git add readme.md
 git status # Open SmartGit too
 git commit -m 'Initial commit'
-echo 'This is the repository of Test 2'>>readme.md
+cat .git/refs/heads/master # Show how the commit ID is the same
+printf "\nThis is the repository of test">>readme.md
 git status # Open SmartGit too
 git commit -am 'Added description to readme'
 git checkout -b feature/blurp
-ls -la .git/refs/heads/
-ls -la .git/refs/heads/feature/
+ls .git/refs/heads/
+ls .git/refs/heads/feature/
 cat .git/refs/heads/feature/blurp
-echo '# Blurp'>blurp.md
-echo '[Here is the blurp](blurp.md)'>>readme.md
+printf "# Blurp">blurp.md
+printf "\n[Here is the blurp](blurp.md)">>readme.md
 git status # Open SmartGit too
 git add .
 git status # Open SmartGit too
-git show readme.md # show the staged content
+git show :readme.md # show the staged content
 git commit -m 'Added the blurp'
 git checkout master
-gitversion # 0.0.1
-echo 'Conflict!'>>readme.md
+gitversion # 0.1.0
+printf "\nConflict\!">>readme.md
 git commit -am 'Added conflict'
 git merge feature/blurp
 ```
@@ -47,7 +48,7 @@ Explain how this process is called GitHubFlow, only using feature branches.
 
 ```shell
 git checkout -b develop
-echo "I'm on devlop now">>readme.md
+printf "\nI'm on devlop now">>readme.md
 git add .
 nano readme.md # fix the typo
 git status # Note that the file is both staged and modified at the same time
@@ -55,7 +56,7 @@ git add .
 git status # Open SmartGit too
 git commit -m 'Develop!'
 gitversion # 1.1.0-unstable.1
-echo 'More devlopment'>>readme.md
+printf "\nMore devlopment">>readme.md
 git add .
 git show :readme.md # show how readme.md looks like in the staging area/index
 git commit -m 'More devlopment'
@@ -116,11 +117,11 @@ git push
 Enable branch protection, including for administrators.
 
 ```shell
-echo 'Illegal'>>readme.md
+printf 'Illegal'>>readme.md
 git commit -am 'This is illegal'
 git push # GitHub will reject this push
 git reset --hard HEAD~1
-```
+```git
 
 ```shell
 git checkout -b feature/derp
@@ -130,7 +131,7 @@ gitversion # 1.1.0-derp.1
 [We need a file of a certain size for Git rename detection to work][1].
 
 ```shell
-printf "Lorem ipsum dolor sit amet, velit urbanitas mea an,\nhas in dicam albucius salutatus. Has eu iuvaret verterem,\nipsum voluptua reformidans sea no.">>blurp.md
+printf "\nLorem ipsum dolor sit amet, velit urbanitas mea an,\nhas in dicam albucius salutatus. Has eu iuvaret verterem,\nipsum voluptua reformidans sea no.">>blurp.md
 
 git commit -am 'Added Lorem Ipsum'
 
@@ -221,7 +222,7 @@ Let's do a pull request.
 20. Wait a while and select 3 random winners of SmartGit licenses:
 
 ```shell
-echo $RANDOM % 10 + 1 | bc
+printf $RANDOM % 10 + 1 | bc
 ```
 
 [1]: https://github.com/libgit2/libgit2/issues/2735#issuecomment-64989769

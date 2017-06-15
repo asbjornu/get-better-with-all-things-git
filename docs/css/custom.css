@@ -15,7 +15,8 @@
 
 .pancakes section.present img.pancake {
     position: absolute;
-    max-height: none !important;
+    max-height: 1000px !important;
+    top: 200px;
     left: 30%;
     transition: left 1s ease-in-out;
 }
