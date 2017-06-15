@@ -738,7 +738,8 @@ cat ~/.ssh/id_rsa.pub
                             Let's init on the command line first.
                             <ol>
                                 <li>
-                                    <pre><code>mkdir test
+<pre><code>
+mkdir test
 cd test
 git init
 echo '# Test 2'>readme.md
@@ -816,19 +817,34 @@ git diff
 git reset --hard HEAD~1
 git merge --no-ff develop
 git show-ref master
-git show-ref develop</code></pre>
+git show-ref develop
+</code></pre>
                                 </li>
                                 <li>Create a new repository on GitHub</li>
                                 <li>
                                     Explain how we can't add anything to it
                                     since we're going to push.
                                 </li>
-                                    <pre><code>git remote add origin git@github.com:asbjornu/test.git
-git push --set-upstream origin master</code></pre>
+<pre><code>
+git remote add origin git@github.com:asbjornu/test.git
+git push --set-upstream origin master
+</code></pre>
                                 </li>
                                 <li>Show the result on GitHub</li>
                                 <li>
-                                    <pre><code><![CDATA[git checkout develop
+<pre><code>
+git checkout develop
+git push
+</code></pre>
+                                </li>
+                                <li>Enable branch protection, including for administrators</li>
+                                <li>
+<pre><code><![CDATA[
+echo 'Illegal'>>readme.md
+git commit -am 'This is illegal'
+git push # GitHub will reject this push
+git reset --hard HEAD~1
+
 git checkout -b feature/derp
 gitversion # 1.1.0-derp.1
 
@@ -866,11 +882,11 @@ gitversion # 1.1.0
 ]]></code></pre>
                                 </li>
                                 <li>Show SmartGit log with all branches checked</li>
-                                <li>Explain how
+                                <li>Explain that this process is Git Flow</li>
                             </ol>
                         </li>
                         <li>
-                            Let's create our first GitHub repository first, then clone it.
+                            Let's create a GitHub repository first, then clone it.
                             <ol>
                                 <li>Create repository on GitHub</li>
                                 <li>Explain README, gitignore and license</li>
@@ -883,7 +899,7 @@ gitversion # 1.1.0
                             </ol>
                         </li>
                         <li>
-                            Let's fork!
+                            Let's fork a repository!
                             <ol>
                                 <li>
                                     Find a repository with
