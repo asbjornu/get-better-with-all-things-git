@@ -764,46 +764,59 @@ git checkout master
 gitversion # 0.0.1
 echo 'Conflict!'>>readme.md
 git commit -am 'Added conflict'
-# resolve merge conflict in SmartGit
+git merge feature/blurp
+
+# Resolve merge conflict in SmartGit
+
 git diff --cached
 git commit --no-edit
 git tag 1.0
 git show # show the last commit
 gitversion # 1.0.0
+
+# Explain how this process is called GitHubFlow, only using feature branches.
+
+git checkout -b develop
 echo "I'm on devlop now">>readme.md
 git add .
-nano readme # fix the typo
-git status # Open SmartGit too # the file is both staged and modified.
+nano readme.md # fix the typo
+git status # Note that the file is both staged and modified at the same time
 git add .
 git status # Open SmartGit too
 git commit -m 'Develop!'
 gitversion # 1.1.0-unstable.1
 echo 'More devlopment'>>readme.md
+git add .
 git show :readme.md # show how readme.md looks like in the staging area/index
-git commit -am 'More devlopment'
+git commit -m 'More devlopment'
 nano readme.md # fix the typo
 git add readme.md
 git commit --amend -m 'More development' # also fix the commit message typo
+
 # Show the SmartGit "Recyclable Commits"
+
 git reflog # See, everything is safe. Commits without child commits or references will be deleted when git does GC.
+
 # git gc will wait until 'gc.reflogexpire' (default 90 days) before a commit is
 # no longer reachable from the reflog and thus will be removed from history.
+
 git checkout master
 git merge develop # show that it does a ff
 cat .git/refs/heads/master
 git show-ref master
-git show-ref develop
+git show-ref develop # explain how develop and master points at the same commit, also show in SmartGit
 git reset HEAD~1
 git diff
-git reset --hard HEAD~1
+
 # explain difference between --mixed (default), --soft and --hard:
 # --soft: what was commited is put back into the index.
 # --mixed: changes are in the working tree, but not the index.
 # --hard: changes are wiped
+
+git reset --hard HEAD~1
 git merge --no-ff develop
 git show-ref master
-git show-ref develop
-</code></pre>
+git show-ref develop</code></pre>
                                 </li>
                                 <li>Create a new repository on GitHub</li>
                                 <li>
