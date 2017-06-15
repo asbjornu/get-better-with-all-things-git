@@ -827,6 +827,46 @@ git show-ref develop</code></pre>
 git push --set-upstream origin master</code></pre>
                                 </li>
                                 <li>Show the result on GitHub</li>
+                                <li>
+                                    <pre><code><![CDATA[git checkout develop
+git checkout -b feature/derp
+gitversion # 1.1.0-derp.1
+
+# We need a file of a certain size for Git rename detection to work
+# https://github.com/libgit2/libgit2/issues/2735#issuecomment-64989769
+
+printf "Lorem ipsum dolor sit amet, velit urbanitas mea an,\nhas in dicam albucius salutatus. Has eu iuvaret verterem,\nipsum voluptua reformidans sea no.">>blurp.md
+git commit -am 'Added Lorem Ipsum'
+
+printf "# Blurp\nLorem ipsum est mutat scripserit cu, velit urbanitas mea an,\neu epicurei atomorum his, est mutat scripserit cu\nhas in prompta persequeris ut. Has eu elaboraret verterem,\nipsum voluptua reformidans sea no.\nCu salutatus definitionem sea, prompta persequeris ut his.">blurp.md
+
+# Show how you can add inner-line, hunk and selection staging in SmartGit
+
+git commit -m 'Rewrote Lorem Ipsum'
+mv blurp.md derp.md
+git status # Also show in SmartGit
+git add .  # Add performs rename detection, while SmartGit does it directly in the working directory
+git status # Explain the rename algorithm.
+ruby -e 'a=STDIN.readlines;10.times do;b=[];5.times do; b << a[rand(a.size)].chomp end; puts b.join(" "); end' < /usr/share/dict/words > derp.md
+git status # As what's staged is still identical, Git still has the file as 'renamed'
+git add .
+git status # Since more than 50% of the file now moved, Git no longer detects the rename.
+
+# Stage the new file with old content in SmartGit so Git detects the rename
+
+git commit -m 'Renamed blurp to derp'
+git commit -am 'Added derping content'
+
+git checkout develop
+git merge --no-ff --no-edit feature/derp
+git checkout master
+git merge --no-ff --no-edit develop
+git tag 1.1
+gitversion # 1.1.0
+]]></code></pre>
+                                </li>
+                                <li>Show SmartGit log with all branches checked</li>
+                                <li>Explain how
                             </ol>
                         </li>
                         <li>
