@@ -1,5 +1,7 @@
 # Prerequisites
 
+Below are the prerequisites to have installed and configured in order to get the maximum value out of the workshop.
+
 ## SmartGit
 
 Install [SmartGit](http://www.syntevo.com/smartgit/). Choose the Open Source (No Support) license option.
