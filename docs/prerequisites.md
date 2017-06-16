@@ -53,7 +53,9 @@ Find a good package manager, if you haven't already.
 
 ## Install
 
-<h2>Install</h2>
+Install Git with the package manager, or
+[download and install it from git-scm.com](https://git-scm.com/downloads).
+
 <table>
     <tr>
         <th scope="row">Windows</th>
@@ -120,7 +122,9 @@ Editor Wars: Commence!
 
 ### Conditional Config (Optional)
 
-Change identity depending on where you are
+**Optional**: Change identity depending on where you are.
+
+**Requires Git version 2.13 or higher.**
 
 ```ini
 [user]
@@ -138,7 +142,9 @@ email = asbjorn@ulsberg.com
 
 ### SSH (Optional)
 
-<p>SSH provides max efficiency, security and flexibility</p>
+**Optional**: Set up Git to use SSH and PKI.
+
+SSH provides max efficiency, security and flexibility.
 
 <pre class="shell"><code style="max-height: none"># Lists the files in your .ssh directory, if they exist:
 ls -al ~/.ssh
