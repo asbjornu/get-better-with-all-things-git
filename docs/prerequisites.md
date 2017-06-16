@@ -1,5 +1,13 @@
 # Prerequisites
 
+## SmartGit
+
+Install [SmartGit](http://www.syntevo.com/smartgit/). Choose the Open Source (No Support) license option.
+
+## GitVersion
+
+Install [GitVersion](https://github.com/GitTools/GitVersion/releases/tag/v3.6.5).
+
 ## Terminal
 
 Pick a good terminal.
