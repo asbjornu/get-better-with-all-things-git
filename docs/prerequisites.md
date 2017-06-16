@@ -1,0 +1,147 @@
+# Prerequisites
+
+## Terminal
+
+Pick a good terminal.
+
+<table>
+    <tr>
+        <th scope="row"><img src="./images/windows.png" alt="Windows"></th>
+        <td>
+            <a href="https://git-scm.com/downloads">Git Bash</a>,
+            <a href="https://github.com/dahlbyk/posh-git">Posh-Git</a>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><img src="./images/apple.png" alt="macOS"></th>
+        <td><a href="https://www.iterm2.com/">iTerm2</a></td>
+    </tr>
+    <tr>
+        <th scope="row"><img src="./images/tux.png" alt="Linux"></th>
+        <td>N/A</td>
+    </tr>
+</table>
+
+## Package Manager
+
+<table>
+    <tr>
+        <th scope="row"><img src="./images/windows.png" alt="Windows"></th>
+        <td><a href="https://chocolatey.org/">🍫</a></td>
+    </tr>
+    <tr>
+        <th scope="row"><img src="./images/apple.png" alt="macOS"></th>
+        <td><a href="https://brew.sh/">🍺</a></td>
+    </tr>
+    <tr>
+        <th scope="row"><img src="./images/tux.png" alt="Linux"></th>
+        <td>N/A</td>
+    </tr>
+</table>
+
+## Install
+
+<h2>Install</h2>
+<table>
+    <tr>
+        <th scope="row"><img src="./images/windows.png" alt="Windows"></th>
+        <td style="font-family: monospace">
+            choco install git.install
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><img src="./images/apple.png" alt="macOS"></th>
+        <td style="font-family: monospace">
+            brew install git
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><img src="./images/tux.png" alt="Linux"></th>
+        <td style="font-family: monospace">
+            apt-get install git
+        </td>
+    </tr>
+</table>
+
+## Configuration
+
+### Name and E-mail
+
+```shell
+# Is a user name configured?
+git config --global user.name
+
+# If not, configure a user name
+git config --global user.name "Asbjørn Ulsberg"
+
+# Is an e-mail address configured?
+git config --global user.email
+
+# If not, configure an e-mail address
+git config --global user.email asbjorn.ulsberg@payex.com
+```
+
+### Editor
+
+Editor Wars: Commence!
+
+<table style="font-size: 70px">
+    <tr>
+        <th scope="row"><img src="./images/windows.png" alt="Windows"></th>
+        <td style="font-family: monospace;">
+            git config --global core.editor notepad
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><img src="./images/apple.png" alt="macOS"></th>
+        <td style="font-family: monospace">
+            git config --global core.editor atom
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><img src="./images/tux.png" alt="Linux"></th>
+        <td style="font-family: monospace">
+            git config --global core.editor emacs
+        </td>
+    </tr>
+</table>
+
+### Conditional Config (Optional)
+
+Change identity depending on where you are
+
+```ini
+[user]
+name = Asbjørn Ulsberg
+email = asbjorn.ulsberg@payex.com
+
+[includeIf "gitdir:~/projects/personal/"]
+path = ~/.gitconfig.oss
+
+# inside .gitconfig.oss:
+
+[user]
+email = asbjorn@ulsberg.com
+```
+
+### SSH (Optional)
+
+<p>SSH provides max efficiency, security and flexibility</p>
+
+<pre class="shell"><code style="max-height: none"># Lists the files in your .ssh directory, if they exist:
+ls -al ~/.ssh
+
+# If not, generate a keypair
+ssh-keygen -t rsa -b 4096 -C "asbjorn.ulsberg@payex.com"
+
+# Complete the interactive key generation wizard.
+# Then add the key to the SSH agent.
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/id_rsa
+
+# Copy the contents of the id_rsa.pub file:
+cat ~/.ssh/id_rsa.pub
+
+<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/#platform-linux">
+    Lastly, add the public key to your GitHub account
+</a>
