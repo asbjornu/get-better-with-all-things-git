@@ -146,7 +146,8 @@ email = asbjorn@ulsberg.com
 
 SSH provides max efficiency, security and flexibility.
 
-<pre class="shell"><code style="max-height: none"># Lists the files in your .ssh directory, if they exist:
+```shell
+# Lists the files in your .ssh directory, if they exist:
 ls -al ~/.ssh
 
 # If not, generate a keypair
