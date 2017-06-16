@@ -38,15 +38,15 @@ Find a good package manager, if you haven't already.
 
 <table>
     <tr>
-        <th scope="row"><img src="./images/windows.png" alt="Windows"></th>
+        <th scope="row">Windows</th>
         <td><a href="https://chocolatey.org/">🍫</a></td>
     </tr>
     <tr>
-        <th scope="row"><img src="./images/apple.png" alt="macOS"></th>
+        <th scope="row">macOS</th>
         <td><a href="https://brew.sh/">🍺</a></td>
     </tr>
     <tr>
-        <th scope="row"><img src="./images/tux.png" alt="Linux"></th>
+        <th scope="row">Linux</th>
         <td>N/A</td>
     </tr>
 </table>
