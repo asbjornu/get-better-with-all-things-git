@@ -153,7 +153,6 @@ ssh-add ~/.ssh/id_rsa
 
 # Copy the contents of the id_rsa.pub file:
 cat ~/.ssh/id_rsa.pub
+```
 
-<a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/#platform-linux">
-    Lastly, add the public key to your GitHub account
-</a>
+[Lastly, add the public key to your GitHub account](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/#platform-linux)
