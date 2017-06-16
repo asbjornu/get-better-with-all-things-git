@@ -12,27 +12,29 @@ Install [GitVersion](https://github.com/GitTools/GitVersion/releases/tag/v3.6.5)
 
 ## Terminal
 
-Pick a good terminal.
+Pick a good terminal if you haven't already.
 
 <table>
     <tr>
-        <th scope="row"><img src="./images/windows.png" alt="Windows"></th>
+        <th scope="row">Windows</th>
         <td>
             <a href="https://git-scm.com/downloads">Git Bash</a>,
             <a href="https://github.com/dahlbyk/posh-git">Posh-Git</a>
         </td>
     </tr>
     <tr>
-        <th scope="row"><img src="./images/apple.png" alt="macOS"></th>
+        <th scope="row">macOS</th>
         <td><a href="https://www.iterm2.com/">iTerm2</a></td>
     </tr>
     <tr>
-        <th scope="row"><img src="./images/tux.png" alt="Linux"></th>
+        <th scope="row">Linux</th>
         <td>N/A</td>
     </tr>
 </table>
 
 ## Package Manager
+
+Find a good package manager, if you haven't already.
 
 <table>
     <tr>
@@ -54,19 +56,19 @@ Pick a good terminal.
 <h2>Install</h2>
 <table>
     <tr>
-        <th scope="row"><img src="./images/windows.png" alt="Windows"></th>
+        <th scope="row">Windows</th>
         <td style="font-family: monospace">
             choco install git.install
         </td>
     </tr>
     <tr>
-        <th scope="row"><img src="./images/apple.png" alt="macOS"></th>
+        <th scope="row">macOS</th>
         <td style="font-family: monospace">
             brew install git
         </td>
     </tr>
     <tr>
-        <th scope="row"><img src="./images/tux.png" alt="Linux"></th>
+        <th scope="row">Linux</th>
         <td style="font-family: monospace">
             apt-get install git
         </td>
@@ -95,21 +97,21 @@ git config --global user.email asbjorn.ulsberg@payex.com
 
 Editor Wars: Commence!
 
-<table style="font-size: 70px">
+<table>
     <tr>
-        <th scope="row"><img src="./images/windows.png" alt="Windows"></th>
+        <th scope="row">Windows</th>
         <td style="font-family: monospace;">
             git config --global core.editor notepad
         </td>
     </tr>
     <tr>
-        <th scope="row"><img src="./images/apple.png" alt="macOS"></th>
+        <th scope="row">macOS</th>
         <td style="font-family: monospace">
             git config --global core.editor atom
         </td>
     </tr>
     <tr>
-        <th scope="row"><img src="./images/tux.png" alt="Linux"></th>
+        <th scope="row">Linux</th>
         <td style="font-family: monospace">
             git config --global core.editor emacs
         </td>
